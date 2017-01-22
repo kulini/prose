@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<style>
+		#addsentence {
+			margin-left: auto;
+			margin-right: auto;
+			text-align: center;
+		}
+
+		#newsentence {
+			width: 300px;
+		}
+
+		#display {
+			margin-left: auto;
+			margin-right: auto;
+			/*text-align: center;*/
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<div class="navig"></div>
+
+		<div id="addsentence">
+			<p>Add a sentence</p>
+			<input type="text" id="newsentence" name="newsentence"><button id="submitnewsentence">submit</button>
+		</div>
+		
+		<div id="display">
+			
+		</div>
+
+	</div>	
+
+	<script>
+	$(document).ready(function(){
+    //display all (original) sentences in mysql/jaws db. 
+    ///'sentences' route is called in server.js
+    function displayOriginalSentences(){
+	    var display = $('#display');
+   		var currentLocation = window.location.origin;
+
+	    $.get(currentLocation + "/sentences", function(data){
+	    	for (var i = 0; i < data.length; i++) {
+	    		var sentenceBlock = $('<blockquote>');
+	    		var sentence = data[i].original;
+	    		sentenceBlock.append(sentence);
+
+	    		display.append(sentenceBlock);
+	    		// console.log(data[i].original);
+	    		// console.log(data[i].id);
+	    	}
+	    });
+    }
+
+    displayOriginalSentences();
+
+    //add a new (original) sentence to the sql/jaws db
+    //'/addsentence' route is called in server.js
+   
+
+		$('#submitnewsentence').click(function(){
+    	var currentLocation = window.location.origin;
+			var newphrase = $('#newsentence').val();
+			newphrase = {'original': newphrase};
+			// newphrase = JSON.stringify(newphrase);
+			$.post(currentLocation+'/addsentence', newphrase, function(data){
+				// console.log(newphrase);
+				window.location.reload();
+				$('#newsentence').val('');
+			});
+		});
+
+		return false; //$(document).ready();
+	})
+
+//sample code
+// $.post(currentLocation + '/adduser', userInfo, function(data){
+// 			console.log(status);
+// 			$('#icon_prefix').val();
+// 			$('#icon_email').val();
+// 			$('#icon_password').val();
+// 		});
+
+	</script>
+</body>
+</html>

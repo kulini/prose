@@ -1,29 +1,50 @@
 {
-  "name": "photographyrater",
+  "name": "prosepros",
   "version": "1.0.0",
-  "description": "",
+  "description": "Craft a better sentence with the ProsePro community",
   "main": "server.js",
   "dependencies": {
+    "babel-core": "^6.22.0",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
     "dominant-color": "^0.0.1",
     "dotenv": "^2.0.0",
-    "mysql": "^2.12.0",
     "express": "^4.14.0",
+    "material-ui": "^0.16.7",
+    "morgan": "^1.7.0",
+    "mysql": "^2.12.0",
     "path": "^0.12.7",
-    "body-parser": "^1.15.2"
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.3.2",
+    "react-dom": "^15.4.2",
+    "react-mixin": "^3.0.5",
+    "react-router": "^2.4.1",
+    "react-router-transitions": "^2.1.0",
+    "react-tap-event-plugin": "^2.0.1",
+    "socket.io": "^1.7.2",
+    "webpack": "^1.14.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-class-properties": "^6.11.5",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "webpack": "^1.13.2"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/afhaque/PhotographyRater.git"
+    "url": "git+https://github.com/ProsePros/Application.git"
   },
-  "author": "",
+  "author": "ProsePros",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/afhaque/PhotographyRater/issues"
+    "url": "https://github.com/ProsePros/Application/issues"
   },
-  "homepage": "https://github.com/afhaque/PhotographyRater#readme"
+  "homepage": "https://github.com/ProsePros/Application#readme"
 }

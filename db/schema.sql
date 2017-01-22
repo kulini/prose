@@ -1,42 +1,4 @@
 
-INSERT INTO photos (url, red, green, blue, dominant) VALUES (?, ?, ?, ?, ?);
-
-
-INSERT INTO allusers (username, password, email) VALUES ('hanbom', 'mickey', 'tmesis3@gmail.com');
-
-
-CREATE TABLE mickey 
-(
-	id int, 
-    url varchar (255), 
-    upvoted boolean default 1, 
-    uploaded boolean
-);
-
-/*
-select * from photos;
-
-delete 
-from photos
-where id >= 273 AND id <= 300;
-*/
-
-use heisodbf0ehdxjh4;
-
-CREATE TABLE photos
-(
-	id int NOT NULL AUTO_INCREMENT,
-	url varchar(255) NOT NULL,
-	red int NOT NULL,
-	green int NOT NULL,
-	blue int NOT NULL,
-	dominant varchar(255),
-	upvotes int DEFAULT 0,
-	downvotes int DEFAULT 0,
-	category varchar(255),
-	tagword varchar(255),
-	PRIMARY KEY (id)
-);
 
 
 CREATE TABLE allusers
@@ -44,18 +6,45 @@ CREATE TABLE allusers
 	username varchar(255) NOT NULL,
 	password varchar(255) NOT NULL,
 	email varchar(255) NOT NULL,
-	red int DEFAULT 130,
-	green int DEFAULT 130,
-	blue int DEFAULT 130,
-	bwCount int DEFAULT 0,
 	upvotes int DEFAULT 0,
 	downvotes int DEFAULT 0,
 	totalUploads int DEFAULT 0,
 	PRIMARY KEY (username)
 );
 
+CREATE TABLE sentences
+(
+	id int (11) AUTO_INCREMENT,
+    original varchar (2048) NOT NULL,
+    revised boolean DEFAULT false,
+    PRIMARY KEY (id)
+);
 
-select * from hanbom;
+DROP TABLE sentences;
 
-SELECT COUNT(*) AS images
-FROM photos;
+INSERT INTO sentences VALUES (1, 'Lost all my hair, and lost all my game');
+INSERT INTO sentences (original) VALUES('No good way to say goodbye');
+
+
+select * from sentences;
+
+CREATE TABLE sentence18
+(
+	id int(11) NOT NULL AUTO_INCREMENT,
+    revision varchar (2048) NOT NULL,
+    upvotes int(11) DEFAULT 0,
+    downvotes int(11) DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+drop table sentence1;
+drop table sentence2;
+
+select * from sentence1;	
+select * from sentence2;
+
+INSERT INTO sentence1 (revision) VALUES ('just testing');
+
+UPDATE sentences
+SET original = 'Lost all my hair, and lost all my game'
+WHERE id = 1;
