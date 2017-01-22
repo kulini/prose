@@ -8,12 +8,23 @@
 
 	<style>
 		#addsentence {
-			margin-left: auto;
+			/*margin-left: auto;
 			margin-right: auto;
-			text-align: center;
+			text-align: center;*/
+		}
+
+		#add {
+			text-transform: uppercase;
+			font-size: 14px;
+			font-weight: bold;
 		}
 
 		#newsentence {
+			width: 300px;
+		}
+
+		#newsentence {
+			height: 30px;
 			width: 300px;
 		}
 
@@ -22,6 +33,12 @@
 			margin-right: auto;
 			/*text-align: center;*/
 		}
+
+		.revise {
+			width: 30px;
+			font-size: 10px;
+			text-align: left;
+		}
 	</style>
 </head>
 <body>
@@ -29,8 +46,8 @@
 		<div class="navig"></div>
 
 		<div id="addsentence">
-			<p>Add a sentence</p>
-			<input type="text" id="newsentence" name="newsentence"><button id="submitnewsentence">submit</button>
+			<span id="add">Add a sentence &nbsp;</span>
+			<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence"><button class="button-clear" id="submitnewsentence">submit</button>
 		</div>
 		
 		<div id="display">
@@ -49,10 +66,25 @@
 
 	    $.get(currentLocation + "/sentences", function(data){
 	    	for (var i = 0; i < data.length; i++) {
+	    		//create new blockquote HTML element
 	    		var sentenceBlock = $('<blockquote>');
+	    		//assign 'original' class to the sentence
+	    		sentenceBlock.addClass('original');
+	    		//retrieve sentence, assign it to var sentence.
 	    		var sentence = data[i].original;
+	    		//retrieve its id# in sql/jaws db
+	    		var id = data[i].id;
+	    		//assign the same id # as an HTML/CSS property
+	    		sentenceBlock.attr('id', id);
+	    		//assign text to the <blockquote> element
 	    		sentenceBlock.append(sentence);
 
+	    		var sentenceButton = $('<button>').text('Revise');
+	    		sentenceButton.addClass('button-clear');
+	    		sentenceButton.addClass('revise');
+	    		sentenceBlock.append(sentenceButton);
+	    		console.log(data[i]);
+	    		//attach blockquote element to parent div
 	    		display.append(sentenceBlock);
 	    		// console.log(data[i].original);
 	    		// console.log(data[i].id);
@@ -69,8 +101,8 @@
 		$('#submitnewsentence').click(function(){
     	var currentLocation = window.location.origin;
 			var newphrase = $('#newsentence').val();
+			//sending submitted sentence as an object was necessary to send to server without errors
 			newphrase = {'original': newphrase};
-			// newphrase = JSON.stringify(newphrase);
 			$.post(currentLocation+'/addsentence', newphrase, function(data){
 				// console.log(newphrase);
 				window.location.reload();
@@ -78,8 +110,27 @@
 			});
 		});
 
+		//when a 'revise' button is clicked, 
+		$(document).on('click', '.revise', function () {
+    	// console.log(this.id);
+		});
+
+		//alternate to $('.original').on('click'), which didn't work for some reason
+		$(document).on('click', '.original', function(){
+			var currentLocation = window.location.origin;
+			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
+			var id = $(this).closest("blockquote").prop("id");
+			console.log(id);
+			var URL = currentLocation + '/revisions/' + id; 
+			$.get(URL, function(data){
+				console.log(URL);
+			});
+		});
+
+		
+		//need this for jQuery to function properly
 		return false; //$(document).ready();
-	})
+	});
 
 //sample code
 // $.post(currentLocation + '/adduser', userInfo, function(data){

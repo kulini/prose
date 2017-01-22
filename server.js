@@ -161,7 +161,7 @@ app.get('/addrevision/:id', function(req, res){
 	var queryString2 = `UPDATE sentences SET revised = true WHERE id=${req.params.id}`;
 	connection.query(queryString2, function(err, data){
 		if (err) throw err;
-		res.send('alright alright alright');
+		res.send();
 	});
 });
 
@@ -177,7 +177,15 @@ app.get('/upvote/:sentenceID/:revisionID', function(req, res){
 });
 
 
-
+//send revisions of a specific original sentence
+app.get('/revisions/:id', function(req, res){
+	var id = req.params.id;
+	var sentenceID = 'sentence'+id;
+	var queryString = `SELECT * FROM ${sentenceID}`;
+	connection.query(queryString, function(err, data){
+		res.send();
+	});
+});
 
 
 //External routing files
