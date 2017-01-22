@@ -91,9 +91,14 @@
 		}
 
 		.upvote {
-			width: 30px;
+			width: 20px;
 			font-size: 10px;
-			margin-left: 20px;
+			margin-left: 30px;
+			text-align: right;
+		}
+
+		.likes {
+			margin-left: 100px;
 		}
 
 		#reviseModal {
@@ -275,15 +280,24 @@
 					var revisedText = data[i].revision;
 					// console.log(data[i]);
 					var revisionID = data[i].id;
+					var likesNumber = data[i].upvotes;
 					console.log(revisionID)
+
 					if (revisionArray.indexOf(revisedText) == -1 && revisedText){
 						revisionArray.push(revisedText);
+						//create a list item for each revision
 						var item = $('<li>').addClass('listItem');
+						//assign as data attribute the revision's id # in sql/jaws db
 						item.attr('data-revision', revisionID);
-						var likeButton = $('<button>').text('Like');
+						//create a like button
+						var likeButton = $('<button>').text('I like it!');
 	    			likeButton.addClass('button-clear');
 	    			likeButton.addClass('upvote');
+	    			//create a button whose text is the number of upvotes for a revision
+	    			var likes = $('<button>').text(likesNumber + " likes");
+	    			likes.addClass('button-clear');
 						item.text(revisedText);
+						item.append(likes);						
 						item.append(likeButton);
 						ulist.append(item);
 						$('#'+id).append(ulist);
