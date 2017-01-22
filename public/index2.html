@@ -106,7 +106,11 @@
 		}
 
 		#submitrevision {
+			padding-right: 10px;
+		}
 
+		#cancelrevision {
+			padding-left: 0px;
 		}
 
 		#reviseinput {
@@ -119,6 +123,10 @@
 			margin-left: 20px;
 			margin-top: -15px;
 		}
+
+		.likes {
+			padding-right: 0px;
+		}
 		/*Modal styling*/
 
 	</style>
@@ -127,7 +135,7 @@
 	<div class="container">
 		<div class="navig">
 			<div id="title">
-				<span id="titleh"><span id="titlehh">bon mot</span></span>
+				<span id="titleh"><span id="titlehh">simon le bon mot says</span></span>
 				<span id="addone">add your own sentence</span>
 			</div>	
 		</div>
@@ -137,7 +145,7 @@
 			<!-- <span id="add">Add a sentence &nbsp;</span> -->
 			<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">
 			<button class="button-clear" id="submitnewsentence">submit</button>
-			<button class="button-clear" id="cancel">cancel</button>
+			<button class="button-clear cancel" id="cancel">cancel</button>
 		</div>
 		
 		<div id="display">
@@ -180,12 +188,14 @@
 	    		sentenceDiv.append(sentenceBlock);
 	    		//assign text to the <blockquote> element
 	    		sentenceBlock.append(sentence);
-
+	    		//create new button
 	    		var sentenceButton = $('<button>').text('Add revision');
+	    		//add classes to button
 	    		sentenceButton.addClass('button-clear');
 	    		sentenceButton.addClass('revise');
+	    		//append button to blockquote element
 	    		sentenceBlock.append(sentenceButton);
-
+	    		//test
 	    		console.log(data[i]);
 	    		//attach blockquote element to parent div
 	    		display.append(sentenceDiv);
@@ -199,7 +209,9 @@
 
     //add a new (original) sentence to the sql/jaws db
     //'/addsentence' route is called in server.js
+    //
    	$('#addone').on('click', function(){
+   		//when button is clicked to add a sentence, these elements are toggled into invisibility
    		$('#addsentence').toggle();
    		$('#display').toggle();
    		$('.navig').toggle();
@@ -224,12 +236,16 @@
 			//show #reviseModal
     	// console.log(this.id);
     	// $('#reviseModal').show();
+
+    	$('ul').hide();
 			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery    	
     	var origtext = $(this).closest("blockquote").text().replace('Add revision', '');
 			var sentenceID = $(this).closest("div").prop("id");
+			//create new reviseModal div that contains the original sentence text, as well as an input field
 			var reviseModal = `<div class="reviseModal"><p id="origtext"></p><input type="text" id="reviseinput">`+
-			`<button id="submitrevision" class="button-clear">submit</button></div>`;
-
+			`<button id="submitrevision" class="button-clear">submit</button>`+
+			`<button class="button-clear cancelrevision2">cancel</button></div>`;
+			//the reviseModal div replaces 
 			$(this).parent().replaceWith(reviseModal);
 			$('#origtext').text(origtext);
 
@@ -268,7 +284,6 @@
 			var currentLocation = window.location.origin;
 			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
 			var id = $(this).closest("div").prop("id");
-
 			console.log(id);
 			var URL = currentLocation + '/revisions/' + id; 
 			console.log(URL);
@@ -296,6 +311,7 @@
 	    			//create a button whose text is the number of upvotes for a revision
 	    			var likes = $('<button>').text(likesNumber + " likes");
 	    			likes.addClass('button-clear');
+	    			likes.addClass('likes')
 						item.text(revisedText);
 						item.append(likes);						
 						item.append(likeButton);
@@ -308,7 +324,11 @@
 
 		$('#cancel').on('click', function(){
 			location.reload();
-		})
+		});	
+
+		$(document).on('click', '.cancelrevision2', function(){
+			location.reload();
+		});
 
 		//need this for jQuery to function properly
 		return false; //$(document).ready();
