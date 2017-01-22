@@ -5,18 +5,67 @@
 	<title></title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<!-- jquery modal plugin --><!-- 
+	<script src="/assets/css/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" href="/assets/css/jquery.modal.css" type="text/css" media="screen" /> -->
 
 	<style>
+		.navig {
+			margin-top: 20px;
+			margin-bottom: 15px;
+		}
+		#title {
+			text-align: left;
+		}
+		#titlehh {
+			margin-top: 10px;
+			font-size: 25px;
+			padding: 10px;
+			text-align: center;
+			color: #9B4DCA;
+			font-weight: bolder;
+			border-color: #9B4DCA;
+			border-width: 2px;
+			border-style: solid;
+		}
+
+		#addone {
+			display: inline;
+			margin-top: 0px;
+			color: #9B4DCA;
+			margin-right: 20%;
+			float: right;
+			text-transform: uppercase;
+			font-size: 14px;
+			border-style: solid;
+			border-width: 1px;
+			padding: 5px;
+		}
+
+
 		#addsentence {
-			/*margin-left: auto;
+			width: 800px;
+			margin-top: 200px;
+			margin-left: auto;
 			margin-right: auto;
-			text-align: center;*/
+			text-align: center;
+			display: none;
+		}
+
+		#submitnewsentence {
+			font-size: 20px;
+		}
+
+		#cancel {
+			font-size: 20px;
+			margin-left: 0px;
 		}
 
 		#add {
 			text-transform: uppercase;
-			font-size: 14px;
+			font-size: 40px;
 			font-weight: bold;
+			color: #9B4DCA;
 		}
 
 		#newsentence {
@@ -29,6 +78,7 @@
 		}
 
 		#display {
+			margin-top: 60px;
 			margin-left: auto;
 			margin-right: auto;
 			/*text-align: center;*/
@@ -39,25 +89,70 @@
 			font-size: 10px;
 			text-align: left;
 		}
+
+		.upvote {
+			width: 30px;
+			font-size: 10px;
+			margin-left: 20px;
+		}
+
+		#reviseModal {
+			display: none;
+		}
+
+		#submitrevision {
+
+		}
+
+		#reviseinput {
+			width: 400px;
+		}
+
+		ul {
+			list-style-type: none;
+			font-size: 14px;
+			margin-left: 20px;
+			margin-top: -15px;
+		}
+		/*Modal styling*/
+
 	</style>
 </head>
 <body>
 	<div class="container">
-		<div class="navig"></div>
+		<div class="navig">
+			<div id="title">
+				<span id="titleh"><span id="titlehh">bon mot</span></span>
+				<span id="addone">add your own sentence</span>
+			</div>	
+		</div>
+		
 
 		<div id="addsentence">
-			<span id="add">Add a sentence &nbsp;</span>
-			<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence"><button class="button-clear" id="submitnewsentence">submit</button>
+			<!-- <span id="add">Add a sentence &nbsp;</span> -->
+			<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">
+			<button class="button-clear" id="submitnewsentence">submit</button>
+			<button class="button-clear" id="cancel">cancel</button>
 		</div>
 		
 		<div id="display">
-			
+			<!-- Where original/unimproved sentences are displayed -->
+		</div>
+		
+		<div id="reviseModal">
+			<p id="origtext"></p>
+		  <input type="text" id="reviseinput">
+		  <button id="submitrevision" class="button-clear">submit</button>
 		</div>
 
-	</div>	
+
+	</div> <!--.container -->
 
 	<script>
 	$(document).ready(function(){
+		//global variable
+		var revisionArray = [];
+
     //display all (original) sentences in mysql/jaws db. 
     ///'sentences' route is called in server.js
     function displayOriginalSentences(){
@@ -67,6 +162,7 @@
 	    $.get(currentLocation + "/sentences", function(data){
 	    	for (var i = 0; i < data.length; i++) {
 	    		//create new blockquote HTML element
+	    		var sentenceDiv = $('<div>');
 	    		var sentenceBlock = $('<blockquote>');
 	    		//assign 'original' class to the sentence
 	    		sentenceBlock.addClass('original');
@@ -75,17 +171,19 @@
 	    		//retrieve its id# in sql/jaws db
 	    		var id = data[i].id;
 	    		//assign the same id # as an HTML/CSS property
-	    		sentenceBlock.attr('id', id);
+	    		sentenceDiv.attr('id', id);
+	    		sentenceDiv.append(sentenceBlock);
 	    		//assign text to the <blockquote> element
 	    		sentenceBlock.append(sentence);
 
-	    		var sentenceButton = $('<button>').text('Revise');
+	    		var sentenceButton = $('<button>').text('Add revision');
 	    		sentenceButton.addClass('button-clear');
 	    		sentenceButton.addClass('revise');
 	    		sentenceBlock.append(sentenceButton);
+
 	    		console.log(data[i]);
 	    		//attach blockquote element to parent div
-	    		display.append(sentenceBlock);
+	    		display.append(sentenceDiv);
 	    		// console.log(data[i].original);
 	    		// console.log(data[i].id);
 	    	}
@@ -96,7 +194,11 @@
 
     //add a new (original) sentence to the sql/jaws db
     //'/addsentence' route is called in server.js
-   
+   	$('#addone').on('click', function(){
+   		$('#addsentence').toggle();
+   		$('#display').toggle();
+   		$('.navig').toggle();
+   	})
 
 		$('#submitnewsentence').click(function(){
     	var currentLocation = window.location.origin;
@@ -111,23 +213,89 @@
 		});
 
 		//when a 'revise' button is clicked, 
-		$(document).on('click', '.revise', function () {
+		$(document).on('click', '.revise', function() {
+			//hide everything that's not #reviseModal
+			// $('div:not(#reviseModal)').hide();  
+			//show #reviseModal
     	// console.log(this.id);
+    	// $('#reviseModal').show();
+			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery    	
+    	var origtext = $(this).closest("blockquote").text().replace('Add revision', '');
+			var sentenceID = $(this).closest("div").prop("id");
+			var reviseModal = `<div class="reviseModal"><p id="origtext"></p><input type="text" id="reviseinput">`+
+			`<button id="submitrevision" class="button-clear">submit</button></div>`;
+
+			$(this).parent().replaceWith(reviseModal);
+			$('#origtext').text(origtext);
+
+
+   		$('#submitrevision').on('click', function(){
+   			var currentLocation = window.location.origin;
+   			var myURL = currentLocation + '/addrevision/' + sentenceID;
+   			console.log(myURL);
+   			var mytext = $('#reviseinput').val();
+   			var textObj = {'revision': mytext};
+   			console.log(textObj);
+   			$.post(myURL, textObj, function(data){
+   				console.log(mytext);
+   				location.reload();
+   			});
+   		});
+		});
+
+		//function to upvote a revision of a sentence
+		$(document).on('click', '.upvote', function(){
+			var sentenceID = $(this).closest("div").prop("id");
+			var revisionID = $(this).closest('li').attr('data-revision');
+			console.log(revisionID);
+			var currentLocation = window.location.origin;
+			var myURL = currentLocation + '/upvote/' + sentenceID + '/' + revisionID;
+
+			$.get(myURL, function(data){
+				console.log(data);
+			});
 		});
 
 		//alternate to $('.original').on('click'), which didn't work for some reason
 		$(document).on('click', '.original', function(){
+			//this line toggles the ul items
+			$(this).siblings().toggle();
 			var currentLocation = window.location.origin;
 			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
-			var id = $(this).closest("blockquote").prop("id");
+			var id = $(this).closest("div").prop("id");
+
 			console.log(id);
 			var URL = currentLocation + '/revisions/' + id; 
+			console.log(URL);
 			$.get(URL, function(data){
-				console.log(URL);
-			});
+				var ulist = $('<ul>').addClass('revisionUL');
+				ulist.attr('id', 'ulist-'+id);
+
+				for (var i = 0; i < data.length; i++){
+					var revisedText = data[i].revision;
+					// console.log(data[i]);
+					var revisionID = data[i].id;
+					console.log(revisionID)
+					if (revisionArray.indexOf(revisedText) == -1 && revisedText){
+						revisionArray.push(revisedText);
+						var item = $('<li>').addClass('listItem');
+						item.attr('data-revision', revisionID);
+						var likeButton = $('<button>').text('Like');
+	    			likeButton.addClass('button-clear');
+	    			likeButton.addClass('upvote');
+						item.text(revisedText);
+						item.append(likeButton);
+						ulist.append(item);
+						$('#'+id).append(ulist);
+					}
+				}; //END for loop
+			});	//END ajax
 		});
 
-		
+		$('#cancel').on('click', function(){
+			location.reload();
+		})
+
 		//need this for jQuery to function properly
 		return false; //$(document).ready();
 	});

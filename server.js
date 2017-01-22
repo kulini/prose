@@ -94,6 +94,8 @@ app.get('/sentences', function(req, res){
 	});
 });
 
+//retrieve only sentences that contain revision
+//probably will filter at the front end instead of using this.
 app.get('/revisedsentences', function(req, res){
 	var queryString = `SELECT * FROM sentences`;
 	var result = '';
@@ -119,6 +121,7 @@ app.get('/revisedsentences', function(req, res){
 //route to add a new sentence to the sentences table
 app.post('/addsentence', function(req, res){
 	var text = req.body.original;
+	if (!text) res.end();
 	console.log(text);
 	// var test = `When we access our good side we'll remember each other with fondness`;
 	var queryString = "INSERT INTO sentences (original) VALUES(?)";
@@ -145,16 +148,18 @@ app.post('/addsentence', function(req, res){
 //replace 'get' with 'post' later
 //route to add a revised version of a sentence to an existing sentence
 
-app.get('/addrevision/:id', function(req, res){
+app.post('/addrevision/:id', function(req, res){
 	var sentenceID = 'sentence' + req.params.id;
 	// var testID = 'sentence1';
-	var text = req.body;
-	var sampleText = ``;
+	//text is req.body.revision because it is sent from from end as {revision: text}
+	var text = req.body.revision;
+	// var sampleText = ``;
+	console.log(text);
 	var queryString = `INSERT INTO ${sentenceID} (revision) VALUES (?)`;
-	connection.query(queryString, [sampleText], function(err, data){
+	connection.query(queryString, [text], function(err, data){
 		// res.status(201);
 		if (err) throw err;
-		res.send('success!');
+		res.send();
 		console.log(data);
 	});
 
@@ -167,7 +172,7 @@ app.get('/addrevision/:id', function(req, res){
 
 //upvote a particular revision of a sentence
 app.get('/upvote/:sentenceID/:revisionID', function(req, res){
-	var sentenceID = req.params.sentenceID;
+	var sentenceID = 'sentence' + req.params.sentenceID;
 	var revisionID = req.params.revisionID;
 	var queryString = `UPDATE ${sentenceID} SET upvotes = upvotes + 1 WHERE id = ${revisionID}`;
 	connection.query(queryString, [sentenceID], function(err, data){
@@ -183,7 +188,7 @@ app.get('/revisions/:id', function(req, res){
 	var sentenceID = 'sentence'+id;
 	var queryString = `SELECT * FROM ${sentenceID}`;
 	connection.query(queryString, function(err, data){
-		res.send();
+		res.json(data);
 	});
 });
 
