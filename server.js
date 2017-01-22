@@ -200,36 +200,3 @@ app.get('/revisions/:id', function(req, res){
 // require('./api/login-register-routes.js')(app);
 require('./api/static-file-routes.js')(app);
 
-
-
-
-//Sample code from previous apps
-// function updateUserTable(userID, photoID, url){
-// 		var queryString = `INSERT INTO ` + userID + ` (id, url) VALUES (?, ?)`;
-// 		connection.query(queryString, [photoID, url], function(err, data){
-// 			if (err) throw err;
-// 			console.log(data);
-// 		});
-// 	}
-
-// connection.query("INSERT INTO products SET ?", {
-//     flavor: "Rocky Road",
-//     price: 3.00,
-//     quantity: 50
-// }, function(err, res) {});
-
-// connection.query("UPDATE products SET ? WHERE ?", [{
-//     quantity: 100
-// }, {
-//     flavor: "Rocky Road"
-// }], function(err, res) {});
-
-// connection.query("DELETE FROM products WHERE ?", {
-//     flavor: "strawberry"
-// }, function(err, res) {});
-
-// connection.query('SELECT * FROM products', function(err, res) {
-//     if (err) throw err;
-//     console.log(res);
-// })
-
