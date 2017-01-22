@@ -62,13 +62,21 @@
 			/*margin-right: 20%;*/
 			clear: left;
 			/*float: right;*/
-			text-transform: uppercase;
+			/*text-transform: uppercase;*/
 			font-size: 14px;
 			border-style: solid;
 			border-width: 1px;
 			padding: 5px;
 		}
 
+		#login {
+			color: #9B4DCA;
+			font-size: 14px;
+			border-width: 1px;
+			border-style: solid;
+			border-color: #9B4DCA;
+			padding: 5px;
+		}
 
 		#addsentence {
 			width: 800px;
@@ -167,7 +175,7 @@
 </head>
 <body>
 	<div class="container">
-		<div class="row">
+		<div class="row tohide">
 			<div class="column">
 				<div id="title">
 					<span id="titleh"> <span id="titlehh">simon le bon mot says</span> </span>					
@@ -175,6 +183,10 @@
 			</div>
 			<div class="column">
 				<span id="addone">add a new sentence</span>
+				<span id="login">login</span>
+			</div>
+			<div class="column">
+				
 			</div>
 		</div>
 		<!-- <div class="navig">
@@ -275,7 +287,7 @@
    		$('#addsentence').toggle();
    		$('#addone').toggle();
    		$('#display').toggle();
-   		$('#title').toggle();
+   		$('.tohide').toggle();
    	})
 
 		$('#submitnewsentence').click(function(){
