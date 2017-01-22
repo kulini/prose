@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>simon le bon mot</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- jquery modal plugin --><!-- 
@@ -17,6 +17,23 @@
 		   #addone {
 		   	border-width: 0px;
 		   }
+		   #title {
+		   	margin-left: auto;
+		   	margin-right: auto;
+		   }
+		}
+
+		::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+			font-size: 18px;
+		}
+		::-moz-placeholder { /* Firefox 19+ */
+			font-size: 18px;
+		}
+		:-ms-input-placeholder { /* IE 10+ */
+			font-size: 18px;
+		}
+		:-moz-placeholder { /* Firefox 18- */
+			font-size: 18px;
 		}
 		.navig {
 			margin-top: 20px;
@@ -24,7 +41,7 @@
 			/*position: fixed;*/
 		}
 		#title {
-			/*text-align: left;*/
+			
 		}
 		#titlehh {
 			margin-top: 10px;
@@ -60,10 +77,6 @@
 			margin-right: auto;
 			text-align: center;
 			display: none;
-			border-style: solid;
-			border-width: 2px;
-			padding: 50px;
-			border-color: #9B4DCA;
 		}
 
 		#submitnewsentence {
@@ -79,6 +92,10 @@
 			text-transform: uppercase;
 			font-size: 40px;
 			font-weight: bold;
+			color: #9B4DCA;
+		}
+
+		#addh3 {
 			color: #9B4DCA;
 		}
 
@@ -157,7 +174,7 @@
 				</div>
 			</div>
 			<div class="column">
-				<span id="addone">add your own sentence</span>
+				<span id="addone">add a new sentence</span>
 			</div>
 		</div>
 		<!-- <div class="navig">
@@ -169,8 +186,9 @@
 		
 		<div class="row" id="addsentence">
 			<div class="column">
-				<h3>Add a sentence</h3>
-				<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				
+				<h3 id="addh3">Add a sentence</h3>
+				<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				 -->
+				<textarea placeholder="Your sentence here" id="newsentence" name="newsentence"></textarea>			
 			</div>
 			<div class="column">
 				<button class="button-clear" id="submitnewsentence">submit</button>
