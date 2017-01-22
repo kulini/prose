@@ -230,8 +230,9 @@
 
 	<script>
 	$(document).ready(function(){
-		//global variable
+		//global variables
 		var revisionArray = [];
+		var sentencesArray = [];
 
 		//
 		$('#titlehh').on('click', function(){
@@ -253,6 +254,9 @@
 	    		sentenceBlock.addClass('original');
 	    		//retrieve sentence, assign it to var sentence.
 	    		var sentence = data[i].original;
+	    		//push to global array that holds these sentences
+	    		//the array will prevent submission of duplicates
+	    		sentencesArray.push(sentence);
 	    		//retrieve its id# in sql/jaws db
 	    		var id = data[i].id;
 	    		//assign the same id # as an HTML/CSS property
@@ -293,6 +297,8 @@
 		$('#submitnewsentence').click(function(){
     	var currentLocation = window.location.origin;
 			var newphrase = $('#newsentence').val();
+			//if the submitted sentence is already in the global array, do not place ajax call
+			if (sentencesArray.indexOf(newphrase) !== -1) return false;
 			//sending submitted sentence as an object was necessary to send to server without errors
 			newphrase = {'original': newphrase};
 			$.post(currentLocation+'/addsentence', newphrase, function(data){
