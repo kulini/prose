@@ -10,12 +10,21 @@
 	<link rel="stylesheet" href="/assets/css/jquery.modal.css" type="text/css" media="screen" /> -->
 
 	<style>
+		@media screen and (max-width: 640px) {
+		   #title {
+		   	margin-bottom: 20px;
+		   }
+		   #addone {
+		   	border-width: 0px;
+		   }
+		}
 		.navig {
 			margin-top: 20px;
 			margin-bottom: 15px;
+			/*position: fixed;*/
 		}
 		#title {
-			text-align: left;
+			/*text-align: left;*/
 		}
 		#titlehh {
 			margin-top: 10px;
@@ -30,11 +39,12 @@
 		}
 
 		#addone {
-			display: inline;
+			/*display: inline;*/
 			margin-top: 0px;
 			color: #9B4DCA;
-			margin-right: 20%;
-			float: right;
+			/*margin-right: 20%;*/
+			clear: left;
+			/*float: right;*/
 			text-transform: uppercase;
 			font-size: 14px;
 			border-style: solid;
@@ -133,12 +143,22 @@
 </head>
 <body>
 	<div class="container">
-		<div class="navig">
+		<div class="row">
+			<div class="column">
+				<div id="title">
+					<span id="titleh"> <span id="titlehh">simon le bon mot says</span> </span>					
+				</div>
+			</div>
+			<div class="column">
+				<span id="addone">add your own sentence</span>
+			</div>
+		</div>
+		<!-- <div class="navig">
 			<div id="title">
 				<span id="titleh"><span id="titlehh">simon le bon mot says</span></span>
 				<span id="addone">add your own sentence</span>
 			</div>	
-		</div>
+		</div> -->
 		
 
 		<div id="addsentence">
