@@ -60,6 +60,10 @@
 			margin-right: auto;
 			text-align: center;
 			display: none;
+			border-style: solid;
+			border-width: 2px;
+			padding: 50px;
+			border-color: #9B4DCA;
 		}
 
 		#submitnewsentence {
@@ -163,13 +167,23 @@
 			</div>	
 		</div> -->
 		
+		<div class="row" id="addsentence">
+			<div class="column">
+				<h3>Add a sentence</h3>
+				<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				
+			</div>
+			<div class="column">
+				<button class="button-clear" id="submitnewsentence">submit</button>
+				<button class="button-clear cancel" id="cancel">cancel</button>				
+			</div>
+		</div>
 
-		<div id="addsentence">
+		<!-- <div id="addsentence"> -->
 			<!-- <span id="add">Add a sentence &nbsp;</span> -->
-			<input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">
+			<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">
 			<button class="button-clear" id="submitnewsentence">submit</button>
 			<button class="button-clear cancel" id="cancel">cancel</button>
-		</div>
+		</div> -->
 		
 		<div id="display">
 			<!-- Where original/unimproved sentences are displayed -->
