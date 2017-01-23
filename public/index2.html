@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>simon le bon mot</title>
+	<title>prose pros</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<!-- jquery modal plugin --><!-- 
@@ -80,19 +80,19 @@
 
 		#addsentence {
 			width: 800px;
-			margin-top: 200px;
-			margin-left: auto;
-			margin-right: auto;
-			text-align: center;
+			margin-top: 50px;
+			margin-left: 50px;
+			/*margin-right: auto;*/
+			/*text-align: center;*/
 			display: none;
 		}
 
 		#submitnewsentence {
-			font-size: 20px;
+			font-size: 12px;
 		}
 
 		#cancel {
-			font-size: 20px;
+			font-size: 12px;
 			margin-left: 0px;
 		}
 
@@ -103,8 +103,9 @@
 			color: #9B4DCA;
 		}
 
-		#addh3 {
+		#addh5 {
 			color: #9B4DCA;
+			margin-left: 0px;
 		}
 
 		#newsentence {
@@ -185,7 +186,7 @@
 		<div class="row tohide">
 			<div class="column">
 				<div id="title">
-					<span id="titleh"> <span id="titlehh">simon le bon mot says</span> </span>					
+					<span id="titleh"> <span id="titlehh">prose pros</span> </span>					
 				</div>
 			</div>
 			<div class="column">
@@ -196,16 +197,10 @@
 				
 			</div>
 		</div>
-		<!-- <div class="navig">
-			<div id="title">
-				<span id="titleh"><span id="titlehh">simon le bon mot says</span></span>
-				<span id="addone">add your own sentence</span>
-			</div>	
-		</div> -->
 		
 		<div class="row" id="addsentence">
 			<div class="column">
-				<h3 id="addh3">Add a sentence</h3>
+				<h5 id="addh5">Add a sentence</h5>
 				<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				 -->
 				<textarea placeholder="Your sentence here" id="newsentence" name="newsentence"></textarea>			
 			</div>
@@ -262,7 +257,7 @@
 	    		//retrieve sentence, assign it to var sentence.
 	    		var sentence = data[i].original;
 	    		//has the sentence been revised?
-	    		console.log(data[i].revised);
+	    		// console.log(data[i].revised);
 	    		var revisedNum = data[i].revised;
 	    		//push to global array that holds these sentences
 	    		//the array will prevent submission of duplicates
@@ -305,8 +300,8 @@
    		//when button is clicked to add a sentence, these elements are toggled into invisibility
    		$('#addsentence').toggle();
    		$('#addone').toggle();
-   		$('#display').toggle();
-   		$('.tohide').toggle();
+   		// $('#display').toggle();
+   		// $('.tohide').toggle();
    	})
 
 		$('#submitnewsentence').click(function(){
