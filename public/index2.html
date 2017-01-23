@@ -363,7 +363,7 @@ span.psw {
 		      <input id="regemail" type="email" placeholder="Enter Email Address">
 		        
 		      <button class="button-outline" id="submitregistration" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
-		      <button class="button-outline" type="button"  class="button">Cancel</button>
+		      <button class="button-outline" onclick="document.getElementById('id03').style.display='none'" type="button"  class="button">Cancel</button>
 
 		    </div>
 
@@ -585,12 +585,14 @@ span.psw {
 			registration.regfirst = regfirst;
 			registration.reglast = reglast;
 			registration.regusername = regusername;
-			registration.password = regpassword;
+			registration.regpassword = regpassword;
 			registration.regemail = regemail;
 
 			// console.log(registration);
 			var currentURL = window.location.origin;
 			var myURL = currentURL + '/register';
+
+
 			$.post(myURL, registration, function(){
 				console.log(registration);
 			});
