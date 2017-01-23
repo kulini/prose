@@ -5,10 +5,7 @@
 	<title>prose pros</title>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-	<!-- jquery modal plugin --><!-- 
-	<script src="/assets/css/jquery.modal.min.js" type="text/javascript" charset="utf-8"></script>
-	<link rel="stylesheet" href="/assets/css/jquery.modal.css" type="text/css" media="screen" /> -->
-
+	
 	<style>
 		@media screen and (max-width: 640px) {
 		   #title {
@@ -69,7 +66,7 @@
 			padding: 5px;
 		}
 
-		#login {
+		#login, #register {
 			color: #9B4DCA;
 			font-size: 14px;
 			border-width: 1px;
@@ -79,12 +76,15 @@
 		}
 
 		#addsentence {
-			width: 800px;
+			width: 500px;
 			margin-top: 50px;
-			margin-left: 50px;
+			margin-left: 0px;
 			/*margin-right: auto;*/
 			/*text-align: center;*/
 			display: none;
+			border-color: #9B4DCA;
+			border-style: solid;
+			border-width: 1px;
 		}
 
 		#submitnewsentence {
@@ -106,17 +106,11 @@
 		#addh5 {
 			color: #9B4DCA;
 			margin-left: 0px;
+			/*text-transform: uppercase;*/
+			padding-top: 10px;
 		}
 
-		#newsentence {
-			width: 300px;
-		}
-
-		#newsentence {
-			height: 30px;
-			width: 300px;
-		}
-
+		
 		#display {
 			margin-top: 60px;
 			margin-left: auto;
@@ -179,9 +173,123 @@
 			color: #9B4DCA;
 		}
 
+
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+/*button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}*/
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+
+.mcontainer {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
 	</style>
 </head>
 <body>
+
 	<div class="container">
 		<div class="row tohide">
 			<div class="column">
@@ -189,9 +297,13 @@
 					<span id="titleh"> <span id="titlehh">prose pros</span> </span>					
 				</div>
 			</div>
-			<div class="column">
+			<div class="column" id="newsent">
 				<span id="addone">add a new sentence</span>
-				<span id="login">login</span>
+				<span onclick="document.getElementById('id01').style.display='block'"  id="login">login</span>
+				<span onclick="document.getElementById('id03').style.display='block'" id="register">register</span>
+
+
+
 			</div>
 			<div class="column">
 				
@@ -200,23 +312,55 @@
 		
 		<div class="row" id="addsentence">
 			<div class="column">
-				<h5 id="addh5">Add a sentence</h5>
+				<h5 id="addh5">add a new sentence</h5>
 				<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				 -->
 				<textarea placeholder="Your sentence here" id="newsentence" name="newsentence"></textarea>			
 			</div>
 			<div class="column">
-				<button class="button-clear" id="submitnewsentence">submit</button>
-				<button class="button-clear cancel" id="cancel">cancel</button>				
+				<button class="button" id="submitnewsentence">submit</button>
+				<button class="button cancel" id="cancel">cancel</button>				
 			</div>
 		</div>
 
-		<!-- <div id="addsentence"> -->
-			<!-- <span id="add">Add a sentence &nbsp;</span> -->
-			<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">
-			<button class="button-clear" id="submitnewsentence">submit</button>
-			<button class="button-clear cancel" id="cancel">cancel</button>
-		</div> -->
+		<!-- LOGIN MODAL -->
+		<!-- http://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_login_form_modal -->
+		<div id="id01" class="modal">
+		  
+		  <form class="modal-content animate">
+		    <div class="mcontainer">
+		      <label><b>Username</b></label>
+		      <input type="text" placeholder="Enter Username" name="uname" required>
+
+		      <label><b>Password</b></label>
+		      <input type="password" placeholder="Enter Password" name="psw" required>
+		        
+		      <button id="submitnewsentence" type="submit" onclick="document.getElementById('id01').style.display='none'" >Login</button>
+		      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="button">Cancel</button>
+
+		    </div>
+
+		  </form>
+		</div>
 		
+
+		<div id="id03" class="modal">
+		  
+		  <form class="modal-content animate">
+		    <div class="mcontainer">
+		      <label><b>Username</b></label>
+		      <input type="text" placeholder="Enter Username" name="uname" required>
+
+		      <label><b>Password</b></label>
+		      <input type="password" placeholder="Enter Password" name="psw" required>
+		        
+		      <button id="submitnewsentence" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
+		      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="button">Cancel</button>
+
+		    </div>
+
+		  </form>
+		</div>
+
 		<div id="display">
 			<!-- Where original/unimproved sentences are displayed -->
 		</div>
@@ -299,7 +443,7 @@
    	$('#addone').on('click', function(){
    		//when button is clicked to add a sentence, these elements are toggled into invisibility
    		$('#addsentence').toggle();
-   		$('#addone').toggle();
+   		// $('#addone').toggle();
    		// $('#display').toggle();
    		// $('.tohide').toggle();
    	})
@@ -308,7 +452,7 @@
     	var currentLocation = window.location.origin;
 			var newphrase = $('#newsentence').val();
 			//if the submitted sentence is already in the global array, do not place ajax call
-			if (sentencesArray.indexOf(newphrase) !== -1) return false;
+			if (sentencesArray.indexOf(newphrase) !== -1 || (!newphrase)) return false;
 			//sending submitted sentence as an object was necessary to send to server without errors
 			newphrase = {'original': newphrase};
 			$.post(currentLocation+'/addsentence', newphrase, function(data){
@@ -424,14 +568,13 @@
 		return false; //$(document).ready();
 	});
 
-//sample code
-// $.post(currentLocation + '/adduser', userInfo, function(data){
-// 			console.log(status);
-// 			$('#icon_prefix').val();
-// 			$('#icon_email').val();
-// 			$('#icon_password').val();
-// 		});
-
 	</script>
+
+	<script>
+	//login script
+	// Get the modal
+	
+</script>
+
 </body>
 </html>
