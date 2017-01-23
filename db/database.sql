@@ -11,13 +11,14 @@ Create table Users
 );
 drop table Users;
 create table userdata
-(
-	id int (11) auto_increment,
-    creator boolean default false,
-    originalId int (11),
-    revisedId int (11),
-    upvotes boolean default false,
-    revisor boolean default false,
+(   
+
+	id int (11) auto_increment, --unique identifier 
+    creator boolean default false, --is the user the creator of the sentence?
+    originalId int (11),    --the id of the original sentence
+    revisedId int (11), -- the id of the revision
+    upvotes boolean default false, --did the user like this sentence?
+    revisor boolean default false, --did the user revise this sentence?
     primary key (id)
 );
 drop table userdata;
