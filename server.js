@@ -126,6 +126,7 @@ app.post('/addsentence', function(req, res){
 	connection.query(queryString, [text], function(err, data){
 		if (err) throw err;
 		console.log(data.insertId);
+		//data.insertId is the id of the original sentence assigned by mysql/jaws db.
 		var sentenceID = data.insertId;
 	  var tableName = 'sentence'+sentenceID;
 

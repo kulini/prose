@@ -347,14 +347,23 @@ span.psw {
 		  
 		  <form class="modal-content animate">
 		    <div class="mcontainer">
+		    	<label><b>First Name</b></label>
+		      <input type="text" placeholder="Enter First Name" name="first" required>
+		      
+		      <label><b>Last Name</b></label>
+		      <input type="text" placeholder="Enter Last Name" name="last" required>
+		      
 		      <label><b>Username</b></label>
 		      <input type="text" placeholder="Enter Username" name="uname" required>
 
 		      <label><b>Password</b></label>
 		      <input type="password" placeholder="Enter Password" name="psw" required>
+
+		      <label><b>Email</b></label>
+		      <input type="email" placeholder="Enter Email Address" name="email" required>
 		        
-		      <button id="submitnewsentence" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
-		      <button type="button" onclick="document.getElementById('id03').style.display='none'" class="button">Cancel</button>
+		      <button class="button-outline" id="submitnewsentence" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
+		      <button class="button-outline" type="button" onclick="document.getElementById('id03').style.display='none'" class="button">Cancel</button>
 
 		    </div>
 
