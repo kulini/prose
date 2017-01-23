@@ -12,8 +12,6 @@
     "morgan": "^1.7.0",
     "mysql": "^2.12.0",
     "path": "^0.12.7",
-    "socket.io": "^1.7.2",
-    "webpack": "^1.14.0"
   },
   "devDependencies": {
     "babel-core": "^6.13.2",
