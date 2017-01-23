@@ -124,9 +124,16 @@
 		}
 
 		.revise {
-			width: 30px;
+			/*width: 30px;*/
 			font-size: 10px;
-			text-align: left;
+			/*text-align: left;*/
+		}
+
+		.unrevised {
+			/*width: 30px;*/
+			/*margin-left: 30px;*/
+			font-size: 10px;
+			color: #9B4DCA;
 		}
 
 		.upvote {
@@ -254,6 +261,9 @@
 	    		sentenceBlock.addClass('original');
 	    		//retrieve sentence, assign it to var sentence.
 	    		var sentence = data[i].original;
+	    		//has the sentence been revised?
+	    		console.log(data[i].revised);
+	    		var revisedNum = data[i].revised;
 	    		//push to global array that holds these sentences
 	    		//the array will prevent submission of duplicates
 	    		sentencesArray.push(sentence);
@@ -269,10 +279,15 @@
 	    		//add classes to button
 	    		sentenceButton.addClass('button-clear');
 	    		sentenceButton.addClass('revise');
+
+	    		var revisionStatus = $('<button>').text(revisedNum + ' submissions');
+	    		revisionStatus.addClass('unrevised');
+	    		revisionStatus.addClass('button-clear');
 	    		//append button to blockquote element
+	    		sentenceBlock.append(revisionStatus);
 	    		sentenceBlock.append(sentenceButton);
 	    		//test
-	    		console.log(data[i]);
+	    		// console.log(data[i]);
 	    		//attach blockquote element to parent div
 	    		display.append(sentenceDiv);
 	    		// console.log(data[i].original);
@@ -317,8 +332,9 @@
     	// $('#reviseModal').show();
 
     	$('ul').hide();
-			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery    	
-    	var origtext = $(this).closest("blockquote").text().replace('Add revision', '');
+			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
+			//because 'add revision' and 'x sumbmissions' have been appended to the blockquote, used regular expression to delete them.
+    	var origtext = $(this).closest("blockquote").text().replace('Add revision', '').replace(/\d+ submissions/, '');
 			var sentenceID = $(this).closest("div").prop("id");
 			//create new reviseModal div that contains the original sentence text, as well as an input field
 			var reviseModal = `<div class="reviseModal"><p id="origtext"></p><input type="text" id="reviseinput">`+
@@ -347,12 +363,12 @@
 		$(document).on('click', '.upvote', function(){
 			var sentenceID = $(this).closest("div").prop("id");
 			var revisionID = $(this).closest('li').attr('data-revision');
-			console.log(revisionID);
+			// console.log(revisionID);
 			var currentLocation = window.location.origin;
 			var myURL = currentLocation + '/upvote/' + sentenceID + '/' + revisionID;
 
 			$.get(myURL, function(data){
-				console.log(data);
+				// console.log(data);
 			});
 		});
 
@@ -363,9 +379,9 @@
 			var currentLocation = window.location.origin;
 			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
 			var id = $(this).closest("div").prop("id");
-			console.log(id);
+			// console.log(id);
 			var URL = currentLocation + '/revisions/' + id; 
-			console.log(URL);
+			// console.log(URL);
 			$.get(URL, function(data){
 				var ulist = $('<ul>').addClass('revisionUL');
 				ulist.attr('id', 'ulist-'+id);
@@ -375,7 +391,7 @@
 					// console.log(data[i]);
 					var revisionID = data[i].id;
 					var likesNumber = data[i].upvotes;
-					console.log(revisionID)
+					// console.log(revisionID);
 
 					if (revisionArray.indexOf(revisedText) == -1 && revisedText){
 						revisionArray.push(revisedText);

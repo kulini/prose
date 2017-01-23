@@ -84,9 +84,6 @@ app.get('/', function(req, res){
 
 
 //send all sentences
-
-
-
 app.get('/sentences', function(req, res){
 	var queryString = `SELECT * FROM sentences`;
 	connection.query(queryString, function(err, data){
@@ -163,7 +160,7 @@ app.post('/addrevision/:id', function(req, res){
 		console.log(data);
 	});
 
-	var queryString2 = `UPDATE sentences SET revised = true WHERE id=${req.params.id}`;
+	var queryString2 = `UPDATE sentences SET revised = revised + 1 WHERE id=${req.params.id}`;
 	connection.query(queryString2, function(err, data){
 		if (err) throw err;
 		res.send();
