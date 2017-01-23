@@ -336,38 +336,37 @@ span.psw {
 		        
 		      <button class="button-outline" id="submitnewsentence" type="submit" onclick="document.getElementById('id01').style.display='none'" >Login</button>
 		      <button class="button-outline" type="button" onclick="document.getElementById('id01').style.display='none'" class="button">Cancel</button>
-
 		    </div>
 
 		  </form>
 		</div>
 		
-
+		<!-- REGISTRATION MODAL -->
 		<div id="id03" class="modal">
 		  
-		  <form class="modal-content animate">
+		  <div class="modal-content animate">
 		    <div class="mcontainer">
 		    	<label><b>First Name</b></label>
-		      <input type="text" placeholder="Enter First Name" name="first" required>
+		      <input id="regfirst" type="text" placeholder="Enter First Name">
 		      
 		      <label><b>Last Name</b></label>
-		      <input type="text" placeholder="Enter Last Name" name="last" required>
+		      <input id="reglast" type="text" placeholder="Enter Last Name">
 		      
 		      <label><b>Username</b></label>
-		      <input type="text" placeholder="Enter Username" name="uname" required>
+		      <input id="regusername" type="text" placeholder="Enter Username">
 
 		      <label><b>Password</b></label>
-		      <input type="password" placeholder="Enter Password" name="psw" required>
+		      <input id="regpassword" type="password" placeholder="Enter Password">
 
 		      <label><b>Email</b></label>
-		      <input type="email" placeholder="Enter Email Address" name="email" required>
+		      <input id="regemail" type="email" placeholder="Enter Email Address">
 		        
-		      <button class="button-outline" id="submitnewsentence" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
-		      <button class="button-outline" type="button" onclick="document.getElementById('id03').style.display='none'" class="button">Cancel</button>
+		      <button class="button-outline" id="submitregistration" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
+		      <button class="button-outline" type="button"  class="button">Cancel</button>
 
 		    </div>
 
-		  </form>
+		  </div>
 		</div>
 
 		<div id="display">
@@ -571,6 +570,29 @@ span.psw {
 
 		$(document).on('click', '.cancelrevision2', function(){
 			location.reload();
+		});
+
+		$('#submitregistration').on('click', function(){
+			//registration info captured from the form
+			var regfirst = $('#regfirst').val();
+			var reglast = $('#reglast').val()
+			var regusername = $('#regusername').val();
+			var regpassword = $('#regpassword').val();
+			var regemail = $('#regemail').val();
+			//this object will hold the registration information
+			var registration = {};
+			registration.regfirst = regfirst;
+			registration.reglast = reglast;
+			registration.regusername = regusername;
+			registration.password = regpassword;
+			registration.regemail = regemail;
+
+			// console.log(registration);
+			var currentURL = window.location.origin;
+			var myURL = currentURL + '/register';
+			$.post(myURL, registration, function(){
+				console.log(registration);
+			});
 		});
 
 		//need this for jQuery to function properly
