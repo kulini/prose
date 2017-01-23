@@ -2,7 +2,7 @@
 //============================================================
 //npm server package
 var express = require('express');
-//npm package used for 
+//npm package used to obtain information from ajax calls
 var bodyParser = require('body-parser');
 //npm package to handle file pathways
 var path = require('path');
@@ -192,31 +192,40 @@ app.get('/revisions/:id', function(req, res){
 
 // registration route
 
-app.post('/registration', function(req, res){
-	var text = req.body.original;
-	if (!text) res.end();
-	console.log(text);
-	// var test = `When we access our good side we'll remember each other with fondness`;
-	var userqueryString = "INSERT INTO users (original) VALUES(?)";
+app.post('/register', function(req, res){
+	var reginfo = req.body;
+	// console.log(reginfo.regfirst);
+	var first = reginfo.regfirst;
+	var last = reginfo.reglast;
+	var username = reginfo.regusername;	
+	var password = reginfo.regpassword;
+	var email = reginfo.regemail;
 
-	connection.query(userqueryStriang, [text], function(err, data){
+
+	var userqueryString = "INSERT INTO Users (firstname, lastname, username, userpassword, email) VALUES(?, ?, ?, ?, ?)";
+
+	console.log(password);
+	//mysql query made to jawsdb
+	connection.query(userqueryString, [first, last, username, password, email], function(err, data){
 		if (err) throw err;
+		console.log(data)
 		console.log(data.insertId);
-		var userID = data.insertId;
-	  var tableName = 'users'+userID;
+		// var userID = data.insertId;
+	  var tableName = username;
 
 		res.send();
 		console.log(userqueryString);
-		var queryString3 = `CREATE TABLE ${tableName} (id int(11) AUTO_INCREMENT, revision varchar (2048) NOT NULL, upvotes int(11) DEFAULT 0, downvotes int(11) DEFAULT 0, PRIMARY KEY (id))`;
+		var userqueryString2 = `CREATE TABLE ${tableName} (id int(11) AUTO_INCREMENT, creator boolean default false, originalId int(11), reviseId int(11), upvotes boolean default false, revisor boolean default false, PRIMARY KEY (id))`;
 
-	  connection.query(queryString3, function(err, data){
+	  connection.query(userqueryString2, function(err, data){
 	  	if (err) throw err;
-	  	console.log(queryString3);
-	  	console.log(sentenceID);
+	  	console.log(userqueryString2);
 	  	res.status(201);
 	  });
 	});
 });
+
+
 //External routing files
 //================================================
 // require('./api/api-routes.js')(app);
