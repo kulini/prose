@@ -191,6 +191,7 @@ app.get('/revisions/:id', function(req, res){
 });
 
 // registration route
+
 app.post('/registration', function(req, res){
 	var text = req.body.original;
 	if (!text) res.end();
@@ -198,7 +199,7 @@ app.post('/registration', function(req, res){
 	// var test = `When we access our good side we'll remember each other with fondness`;
 	var userqueryString = "INSERT INTO users (original) VALUES(?)";
 
-	connection.query(userqueryString, [text], function(err, data){
+	connection.query(userqueryStriang, [text], function(err, data){
 		if (err) throw err;
 		console.log(data.insertId);
 		var userID = data.insertId;
