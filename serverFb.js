@@ -126,7 +126,8 @@ app.get('/', function(req, res){
 });
 
 // Initiate the Facebook Authentication
-app.get("/auth/facebook", passport.authenticate("facebook"));
+app.get("/login/facebook", passport.authenticate("facebook"));
+app.get("/register/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
 // app.get("/public/index2.html",
@@ -160,7 +161,7 @@ app.get("/api/inbox",
   require("connect-ensure-login").ensureLoggedIn(),
   function(req, res) {
 
-    res.json(req.user);
+    res.send(req.user);
 
   });
 
