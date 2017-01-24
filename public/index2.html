@@ -330,12 +330,12 @@ span.psw {
 		  <form class="modal-content animate">
 		    <div class="mcontainer">
 		      <label><b>Username</b></label>
-		      <input type="text" placeholder="Enter Username" name="uname" required>
+		      <input type="text" id="logusername" placeholder="Enter Username" >
 
 		      <label><b>Password</b></label>
-		      <input type="password" placeholder="Enter Password" name="psw" required>
+		      <input type="password" id="logpassword" placeholder="Enter Password">
 		        
-		      <button class="button-outline" id="submitnewsentence" type="submit" onclick="document.getElementById('id01').style.display='none'" >Login</button>
+		      <button class="button-outline" id="submitlogin" type="submit" onclick="document.getElementById('id01').style.display='none'" >Login</button>
 		      <button class="button-outline" type="button" onclick="document.getElementById('id01').style.display='none'" class="button">Cancel</button>
 		    </div>
 
@@ -573,6 +573,7 @@ span.psw {
 			location.reload();
 		});
 
+		//Registration Ajax call
 		$('#submitregistration').on('click', function(){
 			//registration info captured from the form
 			var regfirst = $('#regfirst').val();
@@ -594,8 +595,27 @@ span.psw {
 
 
 			$.post(myURL, registration, function(){
-				console.log(registration);
+				// console.log(registration);
+
 			});
+		});
+
+		//Login Ajax call
+		$('#submitlogin').on('click', function(){
+			var logusername = $('#logusername').val();
+			var logpassword = $('#logpassword').val();
+			var loginfo = {};
+			loginfo.logusername = logusername;
+			loginfo.logpassword = logpassword;
+
+			var currentURL = window.location.origin;
+			var myURL = currentURL + '/login';
+
+			console.log(loginfo);
+			$.post(myURL, loginfo, function(){
+				
+			});
+			return false;
 		});
 
 		//need this for jQuery to function properly
