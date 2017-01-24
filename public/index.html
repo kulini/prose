@@ -117,6 +117,7 @@
 			margin-top: 60px;
 			margin-left: auto;
 			margin-right: auto;
+			margin-bottom: 100px;
 			/*text-align: center;*/
 		}
 
@@ -319,7 +320,7 @@ span.psw {
 				<textarea placeholder="Your sentence here" id="newsentence" name="newsentence"></textarea>			
 			</div>
 			<div class="column">
-				<button class="button-outline" id="submitnewsentence" onclick="document.getElementById('id01').style.display='block'">submit</button>
+				<button class="button-outline" id="submitnewsentence">submit</button>
 				<button class="button-outline cancel" id="cancel">cancel</button>				
 			</div>
 		</div>
@@ -500,14 +501,16 @@ span.psw {
    		$('#submitrevision').on('click', function(){
    			var currentLocation = window.location.origin;
    			var myURL = currentLocation + '/addrevision/' + sentenceID;
-   			console.log(myURL);
+   			// console.log(myURL);
    			var mytext = $('#reviseinput').val();
    			var textObj = {'revision': mytext};
-   			console.log(textObj);
-   			$.post(myURL, textObj, function(data){
-   				console.log(mytext);
+   			// console.log(textObj);
+   			if (mytext){
+   				$.post(myURL, textObj, function(data){
+   				// console.log(mytext);
    				location.reload();
    			});
+   			}
    		});
 		});
 
@@ -624,9 +627,11 @@ span.psw {
 			var currentURL = window.location.origin;
 			var myURL = currentURL + '/login';
 
-			console.log(loginfo);
+			// console.log(loginfo);
 			$.post(myURL, loginfo, function(){
-				
+				//blank out the input fields
+				$('#logusername').val('');
+				$('#logpassword').val('');
 			});
 			return false;
 		});
