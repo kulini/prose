@@ -225,6 +225,41 @@ app.post('/register', function(req, res){
 	});
 });
 
+//login route
+app.post('/login', function(req, res){
+	var loginfo = req.body;
+	// console.log(reginfo.regfirst);
+	var logusername = loginfo.logusername;
+	var logpassword = loginfo.logpassword;
+	var logobject = {};
+	logobject.logusername = logusername;
+	logobject.logpassword = logpassword;
+
+	console.log(loginfo)
+	// var text = req.body.original;
+	// if (!text) res.end();
+	// console.log(text);
+	// var test = `When we access our good side we'll remember each other with fondness`;
+	// var loginqueryString = "SELECT * FROM users (original) VALUES(?)";
+
+	// connection.query(loginqueryString, [logusername, logpassword], function(err, data){
+	// 	if (err) throw err;
+	// 	console.log(data.insertId);
+	// 	var userID = data.insertId;
+	//   var tableName = 'users'+userID;
+
+	// 	res.send();
+	// 	console.log(userqueryString);
+	// 	var queryString3 = `CREATE TABLE ${tableName} (id int(11) AUTO_INCREMENT, revision varchar (2048) NOT NULL, upvotes int(11) DEFAULT 0, downvotes int(11) DEFAULT 0, PRIMARY KEY (id))`;
+
+	//   connection.query(queryString3, function(err, data){
+	//   	if (err) throw err;
+	//   	console.log(queryString3);
+	//   	console.log(sentenceID);
+	//   	res.status(201);
+	//   });
+	// });
+});
 
 //External routing files
 //================================================
