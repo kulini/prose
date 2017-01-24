@@ -36,14 +36,13 @@ create table fbusers
 
 create table fbuser + id;
 (   
-
     sentenceID int (11) NOT NULL, --unique identifier 
     created boolean default false, --is the user the creator of the sentence?
     originalId int (11),    --the id of the original sentence
     revisedId int (11), -- the id of the revision
-    upvotes boolean default false, --did the user like this sentence?
-    revisor boolean default false, --did the user revise this sentence?
-    primary key (fbID)
+    upvoted boolean default false, --did the user like this sentence?
+    revised boolean default false, --did the user revise this sentence?
+    primary key (sentenceID)
 );
 
 

@@ -163,7 +163,7 @@ app.get('/oauth', function(req, res){
 app.get("/login/facebook/return",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   function(req, res) {
-  	// console.log(req.user.id);
+  	console.log(req.user.id);
   	// console.log(req.user.displayName);
   	//user info that is returned from facebook upon login
   	var userID = req.user.id;
@@ -177,8 +177,10 @@ app.get("/login/facebook/return",
   	connection.query(queryString2, function(err, data){
 	  	if (err) throw err;
 	  	//if fbuser doesn't exist in fbusers table, a new user is inserted into it.
+	  	//along with registering new user, a sentences table is created for them.
 	  	if (data.length === 0){
 	  		createUser(userID, userName);
+	  		createUserTable(userID);
 	  		res.redirect("/oauth");
 	  	}
 	  	else {
@@ -192,6 +194,7 @@ function returnUser(){
 
 }
 
+//Insert a new fbuser into fbusers table
 function createUser(id, fbname){
 	var userID = id;
 	var userName = fbname;
@@ -201,6 +204,18 @@ function createUser(id, fbname){
 		console.log('success!!!!');
 	})
 }
+
+//Create a new table for each fbuser
+function createUserTable(id){
+	var tableName = 'fbuser' + id;
+	console.log(tableName);
+	var sqlQuery = `CREATE TABLE ${tableName} (sentenceID int(11) NOT NULL, created BOOLEAN DEFAULT FALSE, revisedID int(11), upvoted BOOLEAN DEFAULT FALSE, revised BOOLEAN DEFAULT FALSE, PRIMARY KEY (sentenceID))`;
+	connection.query(sqlQuery, function(err, data){
+		if (err) throw err;
+		console.log('hoooo!');
+	});
+}
+
 
 // This route is available for retrieving the information associated with the authentication method
 app.get("/api/inbox",
