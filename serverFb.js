@@ -35,7 +35,7 @@ app.use(logger('dev'));
 passport.use(new Strategy({
   clientID: process.env.CLIENT_ID || "152484428585251",
   clientSecret: process.env.CLIENT_SECRET || "5f21878833ee5b0aadea898784fdcfc6",
-  callbackURL: "http://localhost:3000/login/facebook/return"
+  callbackURL: "http://localhost:3000/"
 },
   function(accessToken, refreshToken, profile, cb) {
     // In this example, the user"s Facebook profile is supplied as the user
@@ -69,6 +69,12 @@ passport.deserializeUser(function(obj, cb) {
 // Here we start our Passport process and initiate the storage of sessions (i.e. closing browser maintains user)
 app.use(passport.initialize());
 app.use(passport.session());
+
+// Incorporated a variety of Express packages.
+app.use(require("morgan")("combined"));
+app.use(require("cookie-parser")());
+app.use(require("body-parser").urlencoded({ extended: true }));
+app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 
 //Express middleware for parsing info for http POST requests
 //================================================
@@ -119,10 +125,10 @@ connection.connect(function(err){
 	console.log('connected as ID ' + connection.threadId);
 });
 
-//TEST FB LOGIN PAGE
+//Homepage
 app.get('/', function(req, res){
 	// res.send('smile! you are alive!');
-	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
+	res.sendFile(path.resolve(__dirname, 'public/index.html'));
 });
 
 // Initiate the Facebook Authentication
@@ -130,12 +136,12 @@ app.get("/login/facebook", passport.authenticate("facebook"));
 app.get("/register/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
-// app.get("/public/index2.html",
-//   passport.authenticate("facebook", { failureRedirect: "/" }),
+app.get("/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
 
-//   function(req, res) {
-//     res.redirect("https://www.google.com/");
-//   });
+  function(req, res) {
+    res.redirect("/oauth");
+  });
 
 // This page is available for viewing a hello message
 // app.get("/inbox",
@@ -145,6 +151,11 @@ app.get("/register/facebook", passport.authenticate("facebook"));
 //     res.sendFile(path.join(__dirname, "inbox.html"));
 
 //   });
+
+app.get('/oauth', function(req, res){
+	// res.send('smile! you are alive!');
+	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
+});
 
 app.get("/login/facebook/return",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
