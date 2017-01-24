@@ -513,7 +513,7 @@ span.psw {
 
 		//function to upvote a revision of a sentence when user clicks 'I like it!'
 		//http://stackoverflow.com/questions/14969960/jquery-click-events-firing-multiple-times
-		$(document).one('click', '.upvote', function(){
+		$(document).on('click', '.upvote', function(){
 
 			var sentenceID = $(this).closest("div").prop("id");
 			var revisionID = $(this).closest('li').attr('data-revision');
