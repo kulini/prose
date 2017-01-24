@@ -35,7 +35,7 @@ app.use(logger('dev'));
 passport.use(new Strategy({
   clientID: process.env.CLIENT_ID || "152484428585251",
   clientSecret: process.env.CLIENT_SECRET || "5f21878833ee5b0aadea898784fdcfc6",
-  callbackURL: "http://localhost:3000"
+  callbackURL: "http://localhost:3000/login/facebook/return"
 },
   function(accessToken, refreshToken, profile, cb) {
     // In this example, the user"s Facebook profile is supplied as the user
@@ -43,6 +43,7 @@ passport.use(new Strategy({
     // be associated with a user record in the application"s database, which
     // allows for account linking and authentication with other identity
     // providers.
+   
     return cb(null, profile);
   }));
 
@@ -128,12 +129,12 @@ app.get('/', function(req, res){
 app.get("/auth/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
-app.get("/public/index2.html",
-  passport.authenticate("facebook", { failureRedirect: "/" }),
+// app.get("/public/index2.html",
+//   passport.authenticate("facebook", { failureRedirect: "/" }),
 
-  function(req, res) {
-    res.redirect("https://www.google.com/");
-  });
+//   function(req, res) {
+//     res.redirect("https://www.google.com/");
+//   });
 
 // This page is available for viewing a hello message
 // app.get("/inbox",
@@ -143,6 +144,16 @@ app.get("/public/index2.html",
 //     res.sendFile(path.join(__dirname, "inbox.html"));
 
 //   });
+
+app.get("/login/facebook/return",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+
+  function(req, res) {
+  	console.log(req.user.id);
+  	console.log(req.user.displayName);
+    res.redirect("/");
+  });
+
 
 // This route is available for retrieving the information associated with the authentication method
 app.get("/api/inbox",
