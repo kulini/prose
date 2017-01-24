@@ -118,11 +118,47 @@ connection.connect(function(err){
 	console.log('connected as ID ' + connection.threadId);
 });
 
-//serve static files
+//TEST FB LOGIN PAGE
 app.get('/', function(req, res){
 	// res.send('smile! you are alive!');
-	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
+	res.sendFile(path.resolve(__dirname, 'testLogin.html'));
 });
+
+// Initiate the Facebook Authentication
+app.get("/login/facebook", passport.authenticate("facebook"));
+
+// When Facebook is done, it uses the below route to determine where to go
+app.get("/public/index2.html",
+  passport.authenticate("facebook", { failureRedirect: "/login" }),
+
+  function(req, res) {
+    res.redirect("https://www.google.com/");
+  });
+
+// This page is available for viewing a hello message
+// app.get("/inbox",
+//   require("connect-ensure-login").ensureLoggedIn(),
+//   function(req, res) {
+
+//     res.sendFile(path.join(__dirname, "inbox.html"));
+
+//   });
+
+// // This route is available for retrieving the information associated with the authentication method
+// app.get("/api/inbox",
+//   require("connect-ensure-login").ensureLoggedIn(),
+//   function(req, res) {
+
+//     res.json(req.user);
+
+//   });
+
+
+// //serve static files
+// app.get('/', function(req, res){
+// 	// res.send('smile! you are alive!');
+// 	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
+// });
 
 
 //send all sentences
