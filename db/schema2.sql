@@ -35,7 +35,7 @@ ALTER TABLE sentences MODIFY revised INTEGER;
 
 SELECT * FROM sentences;
 
-DELETE FROM sentences WHERE id = 9;
+DELETE FROM sentences WHERE id = 1;
 
 CREATE TABLE 
 (
@@ -52,21 +52,24 @@ drop table sentence1;
 drop table sentence2;
 drop table sentence3;
 drop table sentence4;
-drop table sentence3;
-drop table sentence3;
+drop table sentence5;
+drop table sentence6;
 drop table sentence3;
 
 drop table sentence18;
 	
 SELECT * FROM sentence1;
-DELETE FROM sentence8 WHERE id = 1;
+SELECT * from sentence2;
+SELECT * FROM sentence7;
+
+DELETE FROM sentence2 WHERE id = 3;
 
 select * from sentence8;
 
 INSERT INTO sentence1 (revision) VALUES ('just testing');
 
 UPDATE sentences
-SET original = 'Lost all my hair, and lost all my game'
+SET original = 'I went bald years ago and my game never recovered'
 WHERE id = 1;
 
 UPDATE sentence1
@@ -76,3 +79,36 @@ WHERE id = 1;
 SET foreign_key_checks = 0;
 DROP TABLE IF EXISTS sentence1, sentence2, sentence3;
 SET foreign_key_checks = 1;
+
+
+Create table Users
+(
+	firstname varchar (255) not null,
+    lastname varchar (255) not null,
+	username varchar(255) not null,
+    userpassword varchar(255) not null,
+    email varchar(255) not null,
+    primary key (email)
+);
+
+
+SELECT * FROM Users;
+DROP TABLE Users;
+DELETE FROM Users WHERE userpassword = 'han';
+
+SELECT * FROM iliketosleep;
+
+DROP table iliketosleep;
+DROP TABLE givemetreats;
+
+SHOW TABLES;
+DROP TABLE sentence27;
+
+
+-- FACEBOOK schema
+CREATE TABLE fbusers
+(   
+    fbID varchar (255) NOT NULL, -- unique identifier 
+    fbName varchar (255), -- is the user the creator of the sentence?
+    primary key (fbID)
+); 
