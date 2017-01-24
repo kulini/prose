@@ -31,6 +31,44 @@ app.use(logger('dev'));
 // Serve local files
 // app.use(express.static('./public'));
 
+// Passport / Facebook Authentication Information
+passport.use(new Strategy({
+  clientID: process.env.CLIENT_ID || "152484428585251",
+  clientSecret: process.env.CLIENT_SECRET || "5f21878833ee5b0aadea898784fdcfc6",
+  callbackURL: "http://localhost:3000"
+},
+  function(accessToken, refreshToken, profile, cb) {
+    // In this example, the user"s Facebook profile is supplied as the user
+    // record.  In a production-quality application, the Facebook profile should
+    // be associated with a user record in the application"s database, which
+    // allows for account linking and authentication with other identity
+    // providers.
+    return cb(null, profile);
+  }));
+
+  // Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  In a
+// production-quality application, this would typically be as simple as
+// supplying the user ID when serializing, and querying the user record by ID
+// from the database when deserializing.  However, due to the fact that this
+// example does not have a database, the complete Facebook profile is serialized
+// and deserialized.
+//
+// If the above doesn"t make sense... don"t worry. I just copied and pasted too.
+passport.serializeUser(function(user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function(obj, cb) {
+  cb(null, obj);
+});
+
+// Here we start our Passport process and initiate the storage of sessions (i.e. closing browser maintains user)
+app.use(passport.initialize());
+app.use(passport.session());
+
 //Express middleware for parsing info for http POST requests
 //================================================
 app.use(bodyParser.json());
