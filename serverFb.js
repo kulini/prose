@@ -169,14 +169,12 @@ app.get("/login/facebook/return",
   	var userID = req.user.id;
   	var userName = req.user.displayName;
 
-  	//
-  	var queryString = ``;
-  	connection.query(queryString1, function(err, data){
-	  	if (err) throw err;
-	  	console.log(queryString2);
-	  	console.log(sentenceID);
-	  	res.status(201);
-	  });
+  	//SQL query to find user in db.
+  	// var queryString = ``;
+  	// connection.query(queryString, function(err, data){
+	  // 	if (err) throw err;
+
+	  // });
 
     // res.sendFile(path.resolve(__dirname, '/public/index2.html'))
     res.redirect("/oauth");
