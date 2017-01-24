@@ -14,9 +14,7 @@ var passport = require("passport");
 var Strategy = require("passport-facebook").Strategy;
 
 var logger = require('morgan');
-// //npm module 'dot-env'; getDefaultProps() {
-	
-// } with sensitive info
+//npm module 'dot-env'; deal with sensitive info
 require('dotenv').config();
 
 //Run express app
@@ -29,54 +27,9 @@ app.listen(PORT, function(){
 });
 
 // Log every request to console
-// app.use(logger('dev'));
+app.use(logger('dev'));
 // Serve local files
 // app.use(express.static('./public'));
-
-// Passport / Facebook Authentication Information
-passport.use(new Strategy({
-  clientID: process.env.CLIENT_ID || "152484428585251",
-  clientSecret: process.env.CLIENT_SECRET || "5f21878833ee5b0aadea898784fdcfc6",
-  callbackURL: "http://localhost:3000/login/facebook/return"
-},
-  function(accessToken, refreshToken, profile, cb) {
-    // In this example, the user"s Facebook profile is supplied as the user
-    // record.  In a production-quality application, the Facebook profile should
-    // be associated with a user record in the application"s database, which
-    // allows for account linking and authentication with other identity
-    // providers.
-   
-    return cb(null, profile);
-  }));
-
-  // Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  In a
-// production-quality application, this would typically be as simple as
-// supplying the user ID when serializing, and querying the user record by ID
-// from the database when deserializing.  However, due to the fact that this
-// example does not have a database, the complete Facebook profile is serialized
-// and deserialized.
-//
-// If the above doesn"t make sense... don"t worry. I just copied and pasted too.
-passport.serializeUser(function(user, cb) {
-  cb(null, user);
-});
-
-passport.deserializeUser(function(obj, cb) {
-  cb(null, obj);
-});
-
-// Here we start our Passport process and initiate the storage of sessions (i.e. closing browser maintains user)
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Incorporated a variety of Express packages.
-app.use(require("morgan")("combined"));
-app.use(require("cookie-parser")());
-app.use(require("body-parser").urlencoded({ extended: true }));
-app.use(require("express-session")({ secret: "keyboard cat", resave: true, saveUninitialized: true }));
 
 //Express middleware for parsing info for http POST requests
 //================================================
@@ -127,118 +80,17 @@ connection.connect(function(err){
 	console.log('connected as ID ' + connection.threadId);
 });
 
-//Homepage
+//serve static files
 app.get('/', function(req, res){
 	// res.send('smile! you are alive!');
-	res.sendFile(path.resolve(__dirname, 'public/index.html'));
-});
-
-// Initiate the Facebook Authentication
-app.get("/login/facebook", passport.authenticate("facebook"));
-app.get("/register/facebook", passport.authenticate("facebook"));
-
-// When Facebook is done, it uses the below route to determine where to go
-app.get("/auth/facebook/callback",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-
-  function(req, res) {
-  	console.log('redirected!')
-    res.sendFile(path.resolve(__dirname, 'index.html'))
-  });
-
-// This page is available for viewing a hello message
-// app.get("/inbox",
-//   require("connect-ensure-login").ensureLoggedIn(),
-//   function(req, res) {
-
-//     res.sendFile(path.join(__dirname, "inbox.html"));
-
-//   });
-
-app.get('/oauth', function(req, res){
 	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
 });
-
-//Route that runs when authenticating.
-app.get("/login/facebook/return",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
-  function(req, res) {
-  	console.log(req.user.id);
-  	// console.log(req.user.displayName);
-  	//user info that is returned from facebook upon login
-  	var userID = req.user.id;
-  	var userName = req.user.displayName;
-
-  	//Insert fb user into fbusers mysql table
-  	// createUser(userID, userName);
-
-  	//SQL query to find user in db.
-  	var queryString2 = `SELECT * FROM fbusers WHERE fbID=${userID}`;
-  	connection.query(queryString2, function(err, data){
-	  	if (err) throw err;
-	  	//if fbuser doesn't exist in fbusers table, a new user is inserted into it.
-	  	//along with registering new user, a sentences table is created for them.
-	  	if (data.length === 0){
-	  		createUser(userID, userName);
-	  		createUserTable(userID);
-	  		res.redirect("/oauth");
-	  	}
-	  	else {
-	  		res.redirect("/oauth");
-	  	}
-	  });
-  });
-//Function that is called when 'login/facebook/return' route immediately above is executed
-function returnUser(){
-	console.log('hip hip hooray');
-
-}
-
-//Insert a new fbuser into fbusers table
-function createUser(id, fbname){
-	var userID = id;
-	var userName = fbname;
-	var queryString = `INSERT INTO fbusers (fbID, fbName) VALUES (?, ?)`;
-	connection.query(queryString, [userID, fbname],function(err, data){
-		if (err) throw err;
-		console.log('success!!!!');
-	})
-}
-
-//Create a new table for each fbuser
-function createUserTable(id){
-	var tableName = 'fbuser' + id;
-	console.log(tableName);
-	var sqlQuery = `CREATE TABLE ${tableName} (sentenceID int(11) NOT NULL, created BOOLEAN DEFAULT FALSE, revisedID int(11), upvoted BOOLEAN DEFAULT FALSE, revised BOOLEAN DEFAULT FALSE, PRIMARY KEY (sentenceID))`;
-	connection.query(sqlQuery, function(err, data){
-		if (err) throw err;
-		console.log('hoooo!');
-	});
-}
-
-
-// This route is available for retrieving the information associated with the authentication method
-app.get("/api/inbox",
-  require("connect-ensure-login").ensureLoggedIn(),
-  function(req, res) {
-
-    res.send(req.user);
-
-  });
-
-
-// //serve static files
-// app.get('/', function(req, res){
-// 	// res.send('smile! you are alive!');
-// 	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
-// });
 
 
 //send all sentences
 app.get('/sentences', function(req, res){
 	var queryString = `SELECT * FROM sentences`;
 	connection.query(queryString, function(err, data){
-		if (err) throw err;
 		res.send(data);
 	});
 });
@@ -378,29 +230,29 @@ app.post('/register', function(req, res){
 });
 
 //login route
-// app.post('/login', function(req, res){
-// 	var loginfo = req.body;
+app.post('/login', function(req, res){
+	var loginfo = req.body;
 
-// 	var logusername = loginfo.logusername;
-// 	var logpassword = loginfo.logpassword;
+	var logusername = loginfo.logusername;
+	var logpassword = loginfo.logpassword;
 
-// 	console.log(loginfo);
+	console.log(loginfo);
 
-// 	var loginqueryString = `SELECT * FROM Users WHERE username=?`;
+	var loginqueryString = `SELECT * FROM Users WHERE username=?`;
 
-// 	connection.query(loginqueryString, [logusername], function(err, data){
-// 		if (err) throw err;
-// 		console.log(data);
-// 		// var userID = data.insertId;
-// 		if (data.userpassword === logpassword){
-// 			res.status(200);
-// 		}
-// 		else {
-// 			//http://stackoverflow.com/questions/29595770/res-success-back-to-frontend-from-a-node-js-express-app
-// 			res.status(400);
-// 		}
-// 	});
-// });
+	connection.query(loginqueryString, [logusername], function(err, data){
+		if (err) throw err;
+		console.log(data);
+		// var userID = data.insertId;
+		if (data.userpassword === logpassword){
+			res.status(200);
+		}
+		else {
+			//http://stackoverflow.com/questions/29595770/res-success-back-to-frontend-from-a-node-js-express-app
+			res.status(400);
+		}
+	});
+});
 
 //External routing files
 //================================================
