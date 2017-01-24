@@ -121,15 +121,15 @@ connection.connect(function(err){
 //TEST FB LOGIN PAGE
 app.get('/', function(req, res){
 	// res.send('smile! you are alive!');
-	res.sendFile(path.resolve(__dirname, 'testLogin.html'));
+	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
 });
 
 // Initiate the Facebook Authentication
-app.get("/login/facebook", passport.authenticate("facebook"));
+app.get("/auth/facebook", passport.authenticate("facebook"));
 
 // When Facebook is done, it uses the below route to determine where to go
 app.get("/public/index2.html",
-  passport.authenticate("facebook", { failureRedirect: "/login" }),
+  passport.authenticate("facebook", { failureRedirect: "/" }),
 
   function(req, res) {
     res.redirect("https://www.google.com/");
@@ -144,14 +144,14 @@ app.get("/public/index2.html",
 
 //   });
 
-// // This route is available for retrieving the information associated with the authentication method
-// app.get("/api/inbox",
-//   require("connect-ensure-login").ensureLoggedIn(),
-//   function(req, res) {
+// This route is available for retrieving the information associated with the authentication method
+app.get("/api/inbox",
+  require("connect-ensure-login").ensureLoggedIn(),
+  function(req, res) {
 
-//     res.json(req.user);
+    res.json(req.user);
 
-//   });
+  });
 
 
 // //serve static files
@@ -304,29 +304,29 @@ app.post('/register', function(req, res){
 });
 
 //login route
-app.post('/login', function(req, res){
-	var loginfo = req.body;
+// app.post('/login', function(req, res){
+// 	var loginfo = req.body;
 
-	var logusername = loginfo.logusername;
-	var logpassword = loginfo.logpassword;
+// 	var logusername = loginfo.logusername;
+// 	var logpassword = loginfo.logpassword;
 
-	console.log(loginfo);
+// 	console.log(loginfo);
 
-	var loginqueryString = `SELECT * FROM Users WHERE username=?`;
+// 	var loginqueryString = `SELECT * FROM Users WHERE username=?`;
 
-	connection.query(loginqueryString, [logusername], function(err, data){
-		if (err) throw err;
-		console.log(data);
-		// var userID = data.insertId;
-		if (data.userpassword === logpassword){
-			res.status(200);
-		}
-		else {
-			//http://stackoverflow.com/questions/29595770/res-success-back-to-frontend-from-a-node-js-express-app
-			res.status(400);
-		}
-	});
-});
+// 	connection.query(loginqueryString, [logusername], function(err, data){
+// 		if (err) throw err;
+// 		console.log(data);
+// 		// var userID = data.insertId;
+// 		if (data.userpassword === logpassword){
+// 			res.status(200);
+// 		}
+// 		else {
+// 			//http://stackoverflow.com/questions/29595770/res-success-back-to-frontend-from-a-node-js-express-app
+// 			res.status(400);
+// 		}
+// 	});
+// });
 
 //External routing files
 //================================================
