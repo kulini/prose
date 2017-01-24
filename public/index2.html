@@ -509,13 +509,20 @@ span.psw {
    		});
 		});
 
-		//function to upvote a revision of a sentence
+		//function to upvote a revision of a sentence when user clicks 'I like it!'
 		$(document).on('click', '.upvote', function(){
 			var sentenceID = $(this).closest("div").prop("id");
 			var revisionID = $(this).closest('li').attr('data-revision');
 			// console.log(revisionID);
 			var currentLocation = window.location.origin;
 			var myURL = currentLocation + '/upvote/' + sentenceID + '/' + revisionID;
+
+			//Update the # of likes displayed on the screen
+			var likesNum = $(this).siblings().text().replace(/\slikes/, '');
+			//capture the current # of likes, turn it from string to number, add one, then concatenate ' likes';
+			var updatedNum = Number(likesNum) + 1 + ' likes';
+			//update the # of likes shown on screen
+			$(this).siblings().text(updatedNum);
 
 			$.get(myURL, function(data){
 				// console.log(data);
@@ -568,7 +575,7 @@ span.psw {
 		});
 
 		$('#cancel').on('click', function(){
-			location.reload();
+			$('#addsentence').hide();
 		});	
 
 		$(document).on('click', '.cancelrevision2', function(){
