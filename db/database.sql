@@ -11,6 +11,7 @@ Create table Users
     primary key (fbID);
 );
 drop table Users;
+
 create table userdata
 (   
 
@@ -22,6 +23,30 @@ create table userdata
     revisor boolean default false, --did the user revise this sentence?
     primary key (id)
 );
+
+
+--facebook schema
+create table fbusers
+(   
+
+    fbID varchar (255) NOT NULL, --unique identifier 
+    fbName varchar (255), --is the user the creator of the sentence?
+    primary key (fbID)
+);
+
+create table fbuser + id;
+(   
+
+    sentenceID int (11) NOT NULL, --unique identifier 
+    created boolean default false, --is the user the creator of the sentence?
+    originalId int (11),    --the id of the original sentence
+    revisedId int (11), -- the id of the revision
+    upvotes boolean default false, --did the user like this sentence?
+    revisor boolean default false, --did the user revise this sentence?
+    primary key (fbID)
+);
+
+
 drop table userdata;
 select * from Users;
 insert into Users values("erick","codingrocks","erick123@gmail.com");

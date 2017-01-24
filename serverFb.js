@@ -29,7 +29,7 @@ app.listen(PORT, function(){
 });
 
 // Log every request to console
-app.use(logger('dev'));
+// app.use(logger('dev'));
 // Serve local files
 // app.use(express.static('./public'));
 
@@ -163,26 +163,43 @@ app.get('/oauth', function(req, res){
 app.get("/login/facebook/return",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
   function(req, res) {
-  	console.log(req.user.id);
-  	console.log(req.user.displayName);
+  	// console.log(req.user.id);
+  	// console.log(req.user.displayName);
   	//user info that is returned from facebook upon login
   	var userID = req.user.id;
   	var userName = req.user.displayName;
 
+  	//Insert fb user into fbusers mysql table
+  	// createUser(userID, userName);
+
   	//SQL query to find user in db.
-  	// var queryString = ``;
-  	// connection.query(queryString, function(err, data){
-	  // 	if (err) throw err;
-
-	  // });
-
-    // res.sendFile(path.resolve(__dirname, '/public/index2.html'))
-    res.redirect("/oauth");
+  	var queryString2 = `SELECT * FROM fbusers WHERE fbID=${userID}`;
+  	connection.query(queryString2, function(err, data){
+	  	if (err) throw err;
+	  	//if fbuser doesn't exist in fbusers table, a new user is inserted into it.
+	  	if (data.length === 0){
+	  		createUser(userID, userName);
+	  		res.redirect("/oauth");
+	  	}
+	  	else {
+	  		res.redirect("/oauth");
+	  	}
+	  });
   });
 //Function that is called when 'login/facebook/return' route immediately above is executed
 function returnUser(){
 	console.log('hip hip hooray');
 
+}
+
+function createUser(id, fbname){
+	var userID = id;
+	var userName = fbname;
+	var queryString = `INSERT INTO fbusers (fbID, fbName) VALUES (?, ?)`;
+	connection.query(queryString, [userID, fbname],function(err, data){
+		if (err) throw err;
+		console.log('success!!!!');
+	})
 }
 
 // This route is available for retrieving the information associated with the authentication method
@@ -206,6 +223,7 @@ app.get("/api/inbox",
 app.get('/sentences', function(req, res){
 	var queryString = `SELECT * FROM sentences`;
 	connection.query(queryString, function(err, data){
+		if (err) throw err;
 		res.send(data);
 	});
 });
