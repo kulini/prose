@@ -516,11 +516,11 @@ span.psw {
 			var myURL = currentLocation + '/upvote/' + sentenceID + '/' + revisionID;
 
 			//Update the # of likes displayed on the screen
-			var likesNum = $(this).siblings().text().replace(/\slikes/, '');
+			var likesNum = $(this).prev().text().replace(/\slikes/, '');
 			//capture the current # of likes, turn it from string to number, add one, then concatenate ' likes';
 			var updatedNum = Number(likesNum) + 1 + ' likes';
 			//update the # of likes shown on screen
-			$(this).siblings().text(updatedNum);
+			$(this).prev().text(updatedNum);
 
 			$.get(myURL, function(data){
 				// console.log(data);
