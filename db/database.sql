@@ -1,13 +1,14 @@
 use aehxyfb8hl4u8mvv;
 
 Create table Users
-(
-	firstname varchar (255) not null,
-    lastname varchar (255) not null,
-	username varchar(255) not null,
-    userpassword varchar(255) not null,
-    email varchar(255) not null,
-    primary key (email)
+(   
+	firstname varchar (255),
+    lastname varchar (255),
+	username varchar(255),
+    userpassword varchar(255),
+    email varchar(255),
+    fbID int(11),
+    primary key (fbID);
 );
 drop table Users;
 create table userdata

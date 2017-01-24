@@ -14,7 +14,9 @@ var passport = require("passport");
 var Strategy = require("passport-facebook").Strategy;
 
 var logger = require('morgan');
-//npm module 'dot-env'; deal with sensitive info
+// //npm module 'dot-env'; getDefaultProps() {
+	
+// } with sensitive info
 require('dotenv').config();
 
 //Run express app
@@ -140,7 +142,8 @@ app.get("/auth/facebook/callback",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
 
   function(req, res) {
-    res.redirect("/oauth");
+  	console.log('redirected!')
+    res.sendFile(path.resolve(__dirname, 'index.html'))
   });
 
 // This page is available for viewing a hello message
@@ -153,19 +156,36 @@ app.get("/auth/facebook/callback",
 //   });
 
 app.get('/oauth', function(req, res){
-	// res.send('smile! you are alive!');
 	res.sendFile(path.resolve(__dirname, 'public/index2.html'));
 });
 
+//Route that runs when authenticating.
 app.get("/login/facebook/return",
   passport.authenticate("facebook", { failureRedirect: "/login" }),
-
   function(req, res) {
   	console.log(req.user.id);
   	console.log(req.user.displayName);
-    res.redirect("/");
-  });
+  	//user info that is returned from facebook upon login
+  	var userID = req.user.id;
+  	var userName = req.user.displayName;
 
+  	//
+  	var queryString = ``;
+  	connection.query(queryString1, function(err, data){
+	  	if (err) throw err;
+	  	console.log(queryString2);
+	  	console.log(sentenceID);
+	  	res.status(201);
+	  });
+
+    // res.sendFile(path.resolve(__dirname, '/public/index2.html'))
+    res.redirect("/oauth");
+  });
+//Function that is called when 'login/facebook/return' route immediately above is executed
+function returnUser(){
+	console.log('hip hip hooray');
+
+}
 
 // This route is available for retrieving the information associated with the authentication method
 app.get("/api/inbox",
