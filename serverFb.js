@@ -35,7 +35,7 @@ app.use(logger('dev'));
 passport.use(new Strategy({
   clientID: process.env.CLIENT_ID || "152484428585251",
   clientSecret: process.env.CLIENT_SECRET || "5f21878833ee5b0aadea898784fdcfc6",
-  callbackURL: "http://localhost:3000/"
+  callbackURL: "http://localhost:3000/login/facebook/return"
 },
   function(accessToken, refreshToken, profile, cb) {
     // In this example, the user"s Facebook profile is supplied as the user
