@@ -1,42 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-    <title>ProsePros</title>
+	<meta charset="UTF-8">
+    <link rel="shortcut icon" href="assets/img/favicon.ico">
+	<title>prose pros</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.4/milligram.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://use.fontawesome.com/80ed129d36.js"></script>
 
-    <!-- CSS  -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="./assets/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-    <link href="./assets/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+	<style>
+		@media screen and (max-width: 640px) {
+		   #title {
+		   	margin-bottom: 20px;
+		   }
+		   #addone {
+		   	border-width: 0px;
+		   }
+		   #title {
+		   	margin-left: auto;
+		   	margin-right: auto;
+		   }
+		}
 
+		::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+			font-size: 18px;
+		}
+		::-moz-placeholder { /* Firefox 19+ */
+			font-size: 18px;
+		}
+		:-ms-input-placeholder { /* IE 10+ */
+			font-size: 18px;
+		}
+		:-moz-placeholder { /* Firefox 18- */
+			font-size: 18px;
+		}
+		.navig {
+			margin-top: 20px;
+			margin-bottom: 15px;
+			/*position: fixed;*/
+		}
+		#title {
+			
+		}
+		#titlehh {
+			margin-top: 10px;
+			font-size: 25px;
+			padding: 10px;
+			text-align: center;
+			color: #9B4DCA;
+			font-weight: bolder;
+			border-color: #9B4DCA;
+			border-width: 2px;
+			border-style: solid;
+		}
+
+		#addone {
+			/*display: inline;*/
+			margin-top: 0px;
+			color: #9B4DCA;
+			/*margin-right: 20%;*/
+			clear: left;
+			/*float: right;*/
+			/*text-transform: uppercase;*/
+			font-size: 14px;
+			border-style: solid;
+			border-width: 1px;
+			padding: 5px;
+		}
+
+		#login, #register {
+			color: #9B4DCA;
+			font-size: 14px;
+			border-width: 1px;
+			border-style: solid;
+			border-color: #9B4DCA;
+			padding: 5px;
+		}
+
+		#addsentence {
+			width: 500px;
+			margin-top: 50px;
+			margin-left: 0px;
+			/*margin-right: auto;*/
+			/*text-align: center;*/
+			display: none;
+			border-color: #9B4DCA;
+			border-style: solid;
+			border-width: 1px;
+		}
+
+		#submitnewsentence {
+			font-size: 12px;
+		}
+
+		#cancel {
+			font-size: 12px;
+			margin-left: 0px;
+		}
+
+		#add {
+			text-transform: uppercase;
+			font-size: 40px;
+			font-weight: bold;
+			color: #9B4DCA;
+		}
+
+		#addh5 {
+			color: #9B4DCA;
+			margin-left: 0px;
+			/*text-transform: uppercase;*/
+			padding-top: 10px;
+		}
+
+		
+		#display {
+			margin-top: 60px;
+			margin-left: auto;
+			margin-right: auto;
+			/*text-align: center;*/
+		}
+
+		.revise {
+			/*width: 30px;*/
+			font-size: 10px;
+			/*text-align: left;*/
+		}
+
+		.unrevised {
+			/*width: 30px;*/
+			/*margin-left: 30px;*/
+			font-size: 10px;
+			color: #9B4DCA;
+		}
+
+		.upvote {
+			width: 20px;
+			font-size: 10px;
+			margin-left: 30px;
+			text-align: right;
+		}
+
+		.likes {
+			margin-left: 100px;
+		}
+
+		#reviseModal {
+			display: none;
+		}
+
+		#submitrevision {
+			padding-right: 10px;
+		}
+
+		#cancelrevision {
+			padding-left: 0px;
+		}
+
+		#reviseinput {
+			width: 400px;
+		}
+
+		ul {
+			list-style-type: none;
+			font-size: 14px;
+			margin-left: 20px;
+			margin-top: -15px;
+		}
+
+		.likes {
+			padding-right: 0px;
+		}
+		/*Modal styling*/
+		#origtext {
+			color: #9B4DCA;
+		}
+
+
+
+/* Full-width input fields */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+/*button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}*/
+
+/* Extra styles for the cancel button */
+.cancelbtn {
+    width: auto;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+/* Center the image and position the close button */
+.imgcontainer {
+    text-align: center;
+    margin: 24px 0 12px 0;
+    position: relative;
+}
+
+
+.mcontainer {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    padding-top: 60px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button (x) */
+.close {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    color: #000;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+    cursor: pointer;
+}
+
+/* Add Zoom Animation */
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)} 
+    to {-webkit-transform: scale(1)}
+}
+    
+@keyframes animatezoom {
+    from {transform: scale(0)} 
+    to {transform: scale(1)}
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+
+	</style>
 </head>
 <body>
 
+	<div class="container">
+		<div class="row tohide">
+			<div class="column">
+				<div id="title">
+					<span id="titleh"> <span id="titlehh">prose pros</span> </span>					
+				</div>
+			</div>
+			<div class="column" id="newsent">
+				<span id="addone">add a new sentence</span>
+				<span onclick="document.getElementById('id01').style.display='block'"  id="login">login</span>
+				<span onclick="document.getElementById('id03').style.display='block'" id="register">register</span>
 
-<div id="app">
+
+
+			</div>
+			<div class="column">
+				
+			</div>
+		</div>
+		
+		<div class="row" id="addsentence">
+			<div class="column">
+				<h5 id="addh5" >add a new sentence</h5>
+				<!-- <input type="text" placeholder="Your sentence here" id="newsentence" name="newsentence">				 -->
+				<textarea placeholder="Your sentence here" id="newsentence" name="newsentence"></textarea>			
+			</div>
+			<div class="column">
+				<button class="button-outline" id="submitnewsentence" onclick="document.getElementById('id01').style.display='block'">submit</button>
+				<button class="button-outline cancel" id="cancel">cancel</button>				
+			</div>
+		</div>
+
+		<!-- LOGIN MODAL -->
+		<!-- http://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_login_form_modal -->
+		<div id="id01" class="modal">
+		  
+		  <form class="modal-content animate">
+		    <div class="mcontainer">
+		      <label><b>Username</b></label>
+		      <input type="text" id="logusername" placeholder="Enter Username" >
+
+		      <label><b>Password</b></label>
+		      <input type="password" id="logpassword" placeholder="Enter Password">
+		        
+		      <button class="button-outline" id="submitlogin" type="submit" onclick="document.getElementById('id01').style.display='none'" >Login</button>
+		      <button class="button-outline" type="button" onclick="document.getElementById('id01').style.display='none'" class="button">Cancel</button>
+                <label><b>or login with</b></label><a href="/auth/facebook" class="button-outline"><span class="fa fa-facebook-square"></span> Facebook</a>
+		    </div>
+
+		  </form>
+		</div>
+		
+		<!-- REGISTRATION MODAL -->
+		<div id="id03" class="modal">
+		  
+		  <div class="modal-content animate">
+		    <div class="mcontainer">
+                <label><b>Register with</b></label><a href="/auth/facebook" class="button-outline"><span class="fa fa-facebook-square"></span> Facebook</a>
+                <hr>
+                <label><b>First Name</b></label>
+		      <input id="regfirst" type="text" placeholder="Enter First Name">
+		      
+		      <label><b>Last Name</b></label>
+		      <input id="reglast" type="text" placeholder="Enter Last Name">
+		      
+		      <label><b>Username</b></label>
+		      <input id="regusername" type="text" placeholder="Enter Username">
+
+		      <label><b>Password</b></label>
+		      <input id="regpassword" type="password" placeholder="Enter Password">
+
+		      <label><b>Email</b></label>
+		      <input id="regemail" type="email" placeholder="Enter Email Address">
+		        
+		      <button class="button-outline" id="submitregistration" type="submit" onclick="document.getElementById('id03').style.display='none'" >Register</button>
+		      <button class="button-outline" onclick="document.getElementById('id03').style.display='none'" type="button"  class="button">Cancel</button>
+
+		    </div>
+
+		  </div>
+		</div>
+
+		<div id="display">
+			<!-- Where original/unimproved sentences are displayed -->
+		</div>
+		
+		<div id="reviseModal">
+			<p id="origtext"></p>
+		  <input type="text" id="reviseinput">
+		  <button id="submitrevision" class="button-clear" onclick="document.getElementById('id01').style.display='block'">submit</button>
+		</div>
+
+
+	</div> <!--.container -->
+
+	<script>
+	$(document).ready(function(){
+		//global variables
+		var revisionArray = [];
+		var sentencesArray = [];
+
+		//
+		$('#titlehh').on('click', function(){
+			location.reload();
+		})
+
+    //display all (original) sentences in mysql/jaws db. 
+    ///'sentences' route is called in server.js
+    function displayOriginalSentences(){
+	    var display = $('#display');
+   		var currentLocation = window.location.origin;
+
+	    $.get(currentLocation + "/sentences", function(data){
+	    	for (var i = 0; i < data.length; i++) {
+	    		//create new blockquote HTML element
+	    		var sentenceDiv = $('<div>');
+	    		var sentenceBlock = $('<blockquote>');
+	    		//assign 'original' class to the sentence
+	    		sentenceBlock.addClass('original');
+	    		//retrieve sentence, assign it to var sentence.
+	    		var sentence = data[i].original;
+	    		//has the sentence been revised?
+	    		// console.log(data[i].revised);
+	    		var revisedNum = data[i].revised;
+	    		//push to global array that holds these sentences
+	    		//the array will prevent submission of duplicates
+	    		sentencesArray.push(sentence);
+	    		//retrieve its id# in sql/jaws db
+	    		var id = data[i].id;
+	    		//assign the same id # as an HTML/CSS property
+	    		sentenceDiv.attr('id', id);
+	    		sentenceDiv.append(sentenceBlock);
+	    		//assign text to the <blockquote> element
+	    		sentenceBlock.append(sentence);
+	    		//create new button
+	    		var sentenceButton = $('<button>').text('Add revision');
+	    		//add classes to button
+	    		sentenceButton.addClass('button-clear');
+	    		sentenceButton.addClass('revise');
+
+	    		var revisionStatus = $('<button>').text(revisedNum + ' submissions');
+	    		revisionStatus.addClass('unrevised');
+	    		revisionStatus.addClass('button-clear');
+	    		//append button to blockquote element
+	    		sentenceBlock.append(revisionStatus);
+	    		sentenceBlock.append(sentenceButton);
+	    		//test
+	    		// console.log(data[i]);
+	    		//attach blockquote element to parent div
+	    		display.append(sentenceDiv);
+	    		// console.log(data[i].original);
+	    		// console.log(data[i].id);
+	    	}
+	    });
+    }
+
+    displayOriginalSentences();
+
+    //add a new (original) sentence to the sql/jaws db
+    //'/addsentence' route is called in server.js
+    //
+   	$('#addone').on('click', function(){
+   		//when button is clicked to add a sentence, these elements are toggled into invisibility
+   		$('#addsentence').toggle();
+   		// $('#addone').toggle();
+   		// $('#display').toggle();
+   		// $('.tohide').toggle();
+   	})
+
+		$('#submitnewsentence').click(function(){
+    	var currentLocation = window.location.origin;
+			var newphrase = $('#newsentence').val();
+			//if the submitted sentence is already in the global array, do not place ajax call
+			if (sentencesArray.indexOf(newphrase) !== -1 || (!newphrase)) return false;
+			//sending submitted sentence as an object was necessary to send to server without errors
+			newphrase = {'original': newphrase};
+			$.post(currentLocation+'/addsentence', newphrase, function(data){
+				// console.log(newphrase);
+				window.location.reload();
+				$('#newsentence').val('');
+			});
+		});
+
+		//when a 'revise' button is clicked, 
+		$(document).on('click', '.revise', function() {
+			//hide everything that's not #reviseModal
+			// $('div:not(#reviseModal)').hide();  
+			//show #reviseModal
+    	// console.log(this.id);
+    	// $('#reviseModal').show();
+
+    	$('ul').hide();
+			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
+			//because 'add revision' and 'x sumbmissions' have been appended to the blockquote, used regular expression to delete them.
+    	var origtext = $(this).closest("blockquote").text().replace('Add revision', '').replace(/\d+ submissions/, '');
+			var sentenceID = $(this).closest("div").prop("id");
+			//create new reviseModal div that contains the original sentence text, as well as an input field
+			var reviseModal = `<div class="reviseModal"><p id="origtext"></p><input type="text" id="reviseinput">`+
+			`<button id="submitrevision" class="button-clear">submit</button>`+
+			`<button class="button-clear cancelrevision2">cancel</button></div>`;
+			//the reviseModal div replaces 
+			$(this).parent().replaceWith(reviseModal);
+			$('#origtext').text(origtext);
+
+
+   		$('#submitrevision').on('click', function(){
+   			var currentLocation = window.location.origin;
+   			var myURL = currentLocation + '/addrevision/' + sentenceID;
+   			console.log(myURL);
+   			var mytext = $('#reviseinput').val();
+   			var textObj = {'revision': mytext};
+   			console.log(textObj);
+   			$.post(myURL, textObj, function(data){
+   				console.log(mytext);
+   				location.reload();
+   			});
+   		});
+		});
+
+		//function to upvote a revision of a sentence when user clicks 'I like it!'
+		//http://stackoverflow.com/questions/14969960/jquery-click-events-firing-multiple-times
+		$(document).one('click', '.upvote', function(){
+
+			var sentenceID = $(this).closest("div").prop("id");
+			var revisionID = $(this).closest('li').attr('data-revision');
+			// console.log(revisionID);
+			var currentLocation = window.location.origin;
+			var myURL = currentLocation + '/upvote/' + sentenceID + '/' + revisionID;
+
+			//Update the # of likes displayed on the screen
+			var likesNum = $(this).prev().text().replace(/\slikes/, '');
+			//capture the current # of likes, turn it from string to number, add one, then concatenate ' likes';
+			var updatedNum = Number(likesNum) + 1 + ' likes';
+			//update the # of likes shown on screen
+			$(this).prev().text(updatedNum);
+
+			$.get(myURL, function(data){
+				// console.log(data);
+			});
+		});
+
+		//alternate to $('.original').on('click'), which didn't work for some reason
+		$(document).on('click', '.original', function(){
+			//this line toggles the ul items
+			$(this).siblings().toggle();
+			var currentLocation = window.location.origin;
+			//http://stackoverflow.com/questions/545978/finding-the-id-of-a-parent-div-using-jquery
+			var id = $(this).closest("div").prop("id");
+			// console.log(id);
+			var URL = currentLocation + '/revisions/' + id; 
+			// console.log(URL);
+			$.get(URL, function(data){
+				var ulist = $('<ul>').addClass('revisionUL');
+				ulist.attr('id', 'ulist-'+id);
+
+				for (var i = 0; i < data.length; i++){
+					var revisedText = data[i].revision;
+					// console.log(data[i]);
+					var revisionID = data[i].id;
+					var likesNumber = data[i].upvotes;
+					// console.log(revisionID);
+
+					if (revisionArray.indexOf(revisedText) == -1 && revisedText){
+						revisionArray.push(revisedText);
+						//create a list item for each revision
+						var item = $('<li>').addClass('listItem');
+						//assign as data attribute the revision's id # in sql/jaws db
+						item.attr('data-revision', revisionID);
+						//create a like button
+						var likeButton = $('<button>').text('I like it!');
+	    			likeButton.addClass('button-clear');
+	    			likeButton.addClass('upvote');
+	    			//create a button whose text is the number of upvotes for a revision
+	    			var likes = $('<button>').text(likesNumber + " likes");
+	    			likes.addClass('button-clear');
+	    			likes.addClass('likes')
+						item.text(revisedText);
+						item.append(likes);						
+						item.append(likeButton);
+						ulist.append(item);
+						$('#'+id).append(ulist);
+					}
+				}; //END for loop
+			});	//END ajax
+		});
+
+		$('#cancel').on('click', function(){
+			$('#addsentence').hide();
+		});	
+
+		$(document).on('click', '.cancelrevision2', function(){
+			location.reload();
+		});
+
+		//Registration Ajax call
+		$('#submitregistration').on('click', function(){
+			//registration info captured from the form
+			var regfirst = $('#regfirst').val();
+			var reglast = $('#reglast').val()
+			var regusername = $('#regusername').val();
+			var regpassword = $('#regpassword').val();
+			var regemail = $('#regemail').val();
+			//this object will hold the registration information
+			var registration = {};
+			registration.regfirst = regfirst;
+			registration.reglast = reglast;
+			registration.regusername = regusername;
+			registration.regpassword = regpassword;
+			registration.regemail = regemail;
+
+			// console.log(registration);
+			var currentURL = window.location.origin;
+			var myURL = currentURL + '/register';
+
+
+			$.post(myURL, registration, function(){
+				// console.log(registration);
+
+			});
+		});
+
+		//Login Ajax call
+		$('#submitlogin').on('click', function(){
+			var logusername = $('#logusername').val();
+			var logpassword = $('#logpassword').val();
+			var loginfo = {};
+			loginfo.logusername = logusername;
+			loginfo.logpassword = logpassword;
+
+			var currentURL = window.location.origin;
+			var myURL = currentURL + '/login';
+
+			console.log(loginfo);
+			$.post(myURL, loginfo, function(){
+				
+			});
+			return false;
+		});
+
+		//need this for jQuery to function properly
+		return false; //$(document).ready();
+	});
+
+	</script>
+
+	<script>
+	//login script
+	// Get the modal
 	
-</div>
-<!--navbar-->
-
-
-<!--Slider-->
-
-
-<!-- RECENT SUBMISSION CARDS WILL GO HERE -->
-
-
-<!--footer-->
-
-
-<!--  Scripts-->
-<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.15.3/axios.js"></script>
-<script src="./assets/js/materialize.js"></script>
-<script src="./assets/js/init.js"></script>
-<script src="./assets/js/bundle.js"></script>
-<script type="text/javascript">$(document).ready(function(){$('.slider').slider({full_width: true, indicators:false, height:450});
-});
 </script>
 
 </body>
